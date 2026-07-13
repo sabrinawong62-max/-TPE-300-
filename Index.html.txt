@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>台北 3D2N 浪漫初戀快閃 WebApp</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            --primary: #FFB7C5; /* 櫻花粉 */
+            --primary-dark: #FF8DA1; /* 深櫻粉 */
+            --secondary: #FFF5F6; /* 超淺粉底色 */
+            --bg: #FFFFFF;
+            --card-bg: #FFFFFF;
+            --text: #4A4A4A; /* 溫柔深灰 */
+            --text-muted: #8E8E93;
+            --accent: #FF6B81; /* 戀愛紅 */
+            --neon-blue: #70A1FF; /* 天空藍 */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--secondary);
+            color: var(--text);
+            padding-bottom: 70px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* 🌸 櫻花飄落動畫效果 🌸 */
+        .cherry-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            background: #FFB7C5;
+            border-radius: 150% 0 150% 150%;
+            opacity: 0.8;
+            animation: float 10s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, -10px) rotate(0deg);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(100px, 100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        .app-header {
+            background: linear-gradient(135deg, #FFF0F2 0%, #FFE3E7 100%);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 1px solid #FFE3E7;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 12px rgba(255, 183, 197, 0.2);
+        }
+
+        .app-header h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--accent);
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        }
+
+        .app-header p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        /* Container */
+        .container {
+            padding: 15px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Info Banner */
+        .info-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-dark);
+            box-shadow: 0 4px 10px rgba(255, 183, 197, 0.1);
+        }
+
+        .info-card h3 { font-size: 15px; margin-bottom: 6px; color: var(--accent); }
+        .info-card p { font-size: 13px; color: var(--text); line-height: 1.5; }
+
+        /* Timeline Styles */
+        .day-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 25px 0 15px 5px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 5px;
+            bottom: 5px;
+            width: 2px;
+            background-color: #FFE3E7;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -19px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--primary-dark);
+            border: 2px solid var(--bg);
+            box-shadow: 0 0 6px var(--primary-dark);
+        }
+
+        .timeline-dot.highlight {
+            background-color: var(--accent);
+            box-shadow: 0 0 6px var(--accent);
+        }
+
+        .timeline-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid #FFE3E7;
+            box-shadow: 0 4px 12px rgba(255, 183, 197, 0.15);
+        }
+
+        .time-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--accent);
+            background-color: #FFF0F2;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            display: inline-block;
+        }
+
+        .item-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #333333;
+        }
+
+        .item-desc {
+            font-size: 13px;
+            color: #666666;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        /* Buttons */
+        .btn-map {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #FFF0F2;
+            color: var(--accent);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #FFE3E7;
+            transition: all 0.2s;
+        }
+
+        .btn-map:active {
+            background-color: #FFE3E7;
+        }
+
+        /* List Items */
+        .list-item {
+            background-color: var(--card-bg);
+            padding: 15px;
+            border-radius: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #FFE3E7;
+            box-shadow: 0 4px 10px rgba(255, 183, 197, 0.1);
+        }
+
+        .list-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .list-item-title { font-size: 14px; color: #333; font-weight: 600; }
+        .list-item-sub { font-size: 12px; color: var(--text-muted); }
+
+        .checkbox-custom {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 2px solid #FFE3E7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-color: #FFF;
+        }
+
+        .checkbox-custom.checked {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .checkbox-custom i {
+            color: #fff;
+            font-size: 12px;
+            display: none;
+        }
+
+        .checkbox-custom.checked i {
+            display: block;
+        }
+
+        .price-tag {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 14px;
+        }
+
+        /* Bottom Nav */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            background-color: rgba(255, 255, 255, 0.92);
+            border-top: 1px solid #FFE3E7;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 12px rgba(255, 183, 197, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 10px;
+            text-decoration: none;
+            width: 20%;
+            padding: 5px 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 🌸 櫻花飄落貨櫃 🌸 -->
+    <div class="cherry-container" id="cherry-petals"></div>
+
+    <header class="app-header">
+        <h1>TAIPEI 3D2N APP</h1>
+        <p>🌸 屬於我們的浪漫快閃紀念日之旅 🌸</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- TAB 1: SCHEDULE -->
+        <div id="tab-schedule" class="tab-content active">
+            <!-- DAY 1 -->
+            <div class="day-title"><i class="fa-solid fa-heart"></i> 7/31 (五) 期待的起點</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">23:30 - 00:45</div>
+                        <div class="item-title">桃園機場降落、過關取行李</div>
+                        <div class="item-desc">驚喜降落台北！落機後先過海關、等行李，一齊開啟甜蜜閃亮假期。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">00:45 - 01:30</div>
+                        <div class="item-title">接駁直奔台北愛巢酒店</div>
+                        <div class="item-desc">深夜直接叫 Uber 直達柯達大飯店。車程約 40 分鐘，車費約 NT$1100-1300。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot highlight"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">01:50 - 03:15</div>
+                        <div class="item-title">萬客什鍋 (長安東路店) 深夜第一餐</div>
+                        <div class="item-desc">飯店行1分鐘就到！Threads爆紅會噴火的石頭火鍋，深夜不用大排長龍，暖笠笠超幸福。</div>
+                        <a href="https://maps.app.goo.gl/G7fR9n7oT4Hq5wF48" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 開啟地圖</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 2 -->
+            <div class="day-title"><i class="fa-solid fa-sparkles"></i> 8/1 (六) 回到初戀那一天</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">11:00 - 12:30</div>
+                        <div class="item-title">中山赤峰街 浪漫 Brunch</div>
+                        <div class="item-desc">瞓到自然醒，牽手散步去赤峰街吃精緻的法式吐司與熱咖啡。</div>
+                        <a href="https://maps.app.goo.gl/N8GZ6sXAnWcR3iJm8" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 富錦樹咖啡</a>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">12:30 - 14:30</div>
+                        <div class="item-title">文青散步、捕捉驚喜小店</div>
+                        <div class="item-desc">走入充滿初戀感的老街廓，行下獨立買手店、日系選物與浪漫香氛。</div>
+                        <a href="https://maps.app.goo.gl/kX7Pqj4tXoDqscDGA" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 赤峰街商圈</a>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot highlight"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">15:00 - 17:00</div>
+                        <div class="item-title">大魯閣棒壘球打擊場 (內湖館)</div>
+                        <div class="item-desc">男人的浪漫！陪他一起揮棒揮灑汗水，看著他認真的背影，一秒回到學生時代。</div>
+                        <a href="https://maps.app.goo.gl/jJ74bms39pE5h6P59" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 大魯閣內湖館</a>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot highlight"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">17:15 - 19:00</div>
+                        <div class="item-title">饒河街觀光夜市小吃巡禮</div>
+                        <div class="item-desc">夜市拍拖最對味！一齊排隊食爆汁胡椒餅、藥燉排骨，分著吃最甜蜜。</div>
+                        <a href="https://maps.app.goo.gl/g6W0DZyrQjQR9vZd" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 饒河夜市</a>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">19:00 - 21:30</div>
+                        <div class="item-title">回飯店打扮、換上驚艷戰衣</div>
+                        <div class="item-desc">回飯店沖涼休息。化個美美的妝，讓他再次對你一見鍾情。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot highlight"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">22:00 - 23:40</div>
+                        <div class="item-title">【已預約】詹記麻辣火鍋 (西門店)</div>
+                        <div class="item-desc">週年紀念日正餐！超時髦台式復古風火鍋。慶祝屬於我們的日子。</div>
+                        <a href="https://maps.app.goo.gl/BicdCqZ2pXzW798U8" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 詹記西門大世界</a>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot highlight"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">23:40 - 04:00</div>
+                        <div class="item-title">信義區 Nightclub 微醺微瘋夜</div>
+                        <div class="item-desc">一起蹦迪！吃飽飽後電力滿格，在台北最嗨的霓虹音樂下心跳加速。</div>
+                        <a href="https://maps.app.goo.gl/yYvTid5W4Wn5v9BFA" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> AI Nightclub</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DAY 3 -->
+            <div class="day-title"><i class="fa-solid fa-cherry-blossom"></i> 8/2 (日) 刻進心底的美好</div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">11:00 - 11:30</div>
+                        <div class="item-title">Check-out 寄放行李</div>
+                        <div class="item-desc">慵懶退房，將行李寄放在飯店，繼續最後一天的甜蜜約會。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">11:30 - 13:30</div>
+                        <div class="item-title">榕錦時光生活園區 唯美散步</div>
+                        <div class="item-desc">絕美日式木建築長廊，好似去咗日本京都！吃個好丘貝果，幫彼此拍滿初戀感照片。</div>
+                        <a href="https://maps.app.goo.gl/iXw65Kzic9a6B9pG9" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 榕錦時光</a>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot highlight"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">13:30 - 16:30</div>
+                        <div class="item-title">天空興波 Simple Kaffa (101店)</div>
+                        <div class="item-desc">在 101 大樓 88 樓的全台最高咖啡廳，俯瞰整座城市對他說愛你。</div>
+                        <a href="https://maps.app.goo.gl/9P8L38n7qW7wK8oP7" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 天空興波 101</a>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">16:30 - 18:00</div>
+                        <div class="item-title">拿行李搭乘機捷</div>
+                        <div class="item-desc">依依不捨回飯店拿行李，前往台北車站搭直達機捷。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-card">
+                        <div class="time-badge">18:00 - 21:20</div>
+                        <div class="item-title">托運行李、平安回港</div>
+                        <div class="item-desc">請於 18:20 前抵達櫃檯辦理托運。帶著滿滿的浪漫回憶，期待下一次的快閃！</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: HOTEL -->
+        <div id="tab-hotel" class="tab-content">
+            <div class="day-title"><i class="fa-solid fa-hotel"></i> 下榻愛巢</div>
+            <div class="timeline-card" style="margin-bottom: 15px;">
+                <div class="item-title" style="color:var(--accent);">柯達大飯店 台北長安</div>
+                <div class="item-desc"><b>地址：</b>台北市中山區長安東路一段11號</div>
+                <div class="item-desc"><b>貼心提示：</b>飯店下樓 1 分鐘就是萬客什鍋！行去捷運中山站大約 10 分鐘，位置超好。</div>
+                <a href="https://maps.app.goo.gl/3aD4p6q8LCHasHk59" target="_blank" class="btn-map"><i class="fa-solid fa-map-pin"></i> 開啟地圖導航</a>
+            </div>
+        </div>
+
+        <!-- TAB 3: PACKING -->
+        <div id="tab-packing" class="tab-content">
+            <div class="day-title"><i class="fa-solid fa-heart-pulse"></i> 驚喜行前清單</div>
+            <div class="list-item" onclick="toggleCheck(this)">
+                <div class="list-item-left">
+                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <div class="list-item-title">兩人的實體護照</div>
+                        <div class="list-item-sub">千萬別漏！趁他睡覺偷偷拿走</div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-item" onclick="toggleCheck(this)">
+                <div class="list-item-left">
+                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <div class="list-item-title">入台證（實體 A4 紙）</div>
+                        <div class="list-item-sub">提早申請免費網簽並列印出來</div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-item" onclick="toggleCheck(this)">
+                <div class="list-item-left">
+                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <div class="list-item-title">夜店戰衣（男友長褲+包鞋）</div>
+                        <div class="list-item-sub">夜店嚴格規定，男生不能穿短褲/拖鞋</div>
+                    </div>
+                </div>
+            </div>
+            <div class="list-item" onclick="toggleCheck(this)">
+                <div class="list-item-left">
+                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <div class="list-item-title">行動電源 (尿袋)</div>
+                        <div class="list-item-sub">必須放隨身行李攜帶，不可寄艙</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: BUDGET -->
+        <div id="tab-budget" class="tab-content">
+            <div class="day-title"><i class="fa-solid fa-wallet"></i> 幸福預算花費 (2人)</div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div>
+                        <div class="list-item-title">🚕 甜蜜交通</div>
+                        <div class="list-item-sub">含深夜機場來回 Uber 及市區捷運</div>
+                    </div>
+                </div>
+                <div class="price-tag">HK$ 600</div>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div>
+                        <div class="list-item-title">🍲 美食飨宴</div>
+                        <div class="list-item-sub">萬客什、浪漫咖啡、夜市、詹記大餐</div>
+                    </div>
+                </div>
+                <div class="price-tag">HK$ 1,400</div>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div>
+                        <div class="list-item-title">🍸 夜蒲微醺</div>
+                        <div class="list-item-sub">夜店週末男生門票與酒錢</div>
+                    </div>
+                </div>
+                <div class="price-tag">HK$ 800</div>
+            </div>
+            <div class="list-item">
+                <div class="list-item-left">
+                    <div>
+                        <div class="list-item-title">🛍️ 紀念品與手信</div>
+                        <div class="list-item-sub">打棒球娛樂與鳳梨酥採購</div>
+                    </div>
+                </div>
+                <div class="price-tag">HK$ 1,200</div>
+            </div>
+            <div class="info-card" style="border-left-color: var(--accent); margin-top: 20px;">
+                <h3>📊 當地總預算</h3>
+                <p style="font-size: 15px; color: var(--accent); font-weight: 700; margin-top: 5px;">約 HK$ 3,500 - HK$ 4,500</p>
+                <p style="margin-top: 5px; font-size: 12px; color: #666;">建議先在香港換好 <b>NT$ 8,000 - 10,000 現金</b>用於找數夜市、打棒球及部分的士，其餘刷卡即可！</p>
+            </div>
+        </div>
+
+    </div>
+
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('schedule', this)">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>每日行程</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('hotel', this)">
+            <i class="fa-solid fa-hotel"></i>
+            <span>住宿地點</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('packing', this)">
+            <i class="fa-solid fa-suitcase"></i>
+            <span>行前準備</span>
+        </button>
+        <button class="nav-item" onclick="switchTab('budget', this)">
+            <i class="fa-solid fa-wallet"></i>
+            <span>費用預算</span>
+        </button>
+    </nav>
+
+    <script>
+        // 🌸 自動生成櫻花飄落粒子 🌸
+        function createPetals() {
+            const container = document.getElementById('cherry-petals');
+            const petalCount = 20; // 畫面中同時存在的櫻花數
+            
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // 隨機大小、位置、延遲和速度
+                const size = Math.random() * 8 + 6;
+                petal.style.width = size + 'px';
+                petal.style.height = size + 'px';
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDelay = Math.random() * 8 + 's';
+                petal.style.animationDuration = Math.random() * 6 + 6 + 's';
+                
+                container.appendChild(petal);
+            }
+        }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            document.getElementById('tab-' + tabId).classList.add('active');
+            element.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function toggleCheck(element) {
+            const checkbox = element.querySelector('.checkbox-custom');
+            checkbox.classList.toggle('checked');
+        }
+
+        // 初始化櫻花
+        window.onload = createPetals;
+    </script>
+</body>
+</html>
+
