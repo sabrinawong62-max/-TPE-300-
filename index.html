@@ -9,53 +9,32 @@
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #fffcf9 0%, #fdf5ef 100%);
-            color: #7a6a5f; /* 使用柔和暖棕色 */
+            color: #7a6a5f;
             min-height: 100vh;
             padding-bottom: 90px;
         }
-
-        /* 天燈與光點特效 */
         .sky-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
         .lantern { position: absolute; bottom: -120px; background: linear-gradient(to top, rgba(251, 146, 60, 0.4), rgba(254, 215, 170, 0.1)); border-radius: 10px; animation: floatAndSway 20s infinite linear; opacity: 0; }
-        
         @keyframes floatAndSway {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
+            10% { opacity: 0.6; } 90% { opacity: 0.6; }
             100% { transform: translateY(-120vh) rotate(5deg); opacity: 0; }
         }
-
-        /* 標題與 UI 樣式 */
-        header { text-align: center; padding: 40px 20px; }
-        .anniversary-badge { 
-            background-color: #fce7f3; color: #db2777; font-size: 0.8rem; 
-            padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 10px;
-        }
-        h1 { font-size: 1.5rem; color: #886a5a; margin-bottom: 10px; }
-
-        .container { max-width: 550px; margin: 0 auto; padding: 0 16px; }
-        .day-tab.active { background: #fdf2f8; color: #db2777; border: 1px solid #fbcfe8; }
-        
-        /* 卡片與 Highlight */
+        header { text-align: center; padding: 40px 20px; position: relative; z-index: 10; }
+        .anniversary-badge { background-color: #fce7f3; color: #db2777; font-size: 0.8rem; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-bottom: 10px; }
+        .container { max-width: 550px; margin: 0 auto; padding: 0 16px; position: relative; z-index: 10; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         .schedule-card { background: rgba(255, 255, 255, 0.8); border-radius: 24px; padding: 22px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .info-box.highlight { background-color: #fffaf0; border-left: 4px solid #fdba74; }
-        .info-box.highlight .title { color: #d97706; font-weight: bold; margin-bottom: 6px; }
-        
-        .map-button { 
-            display: block; text-align: center; background: #fff5f5; color: #e11d48;
-            padding: 12px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 10px;
-        }
-
-        /* 底部導航 */
+        .info-box.highlight { background-color: #fffaf0; border-left: 4px solid #fdba74; padding: 15px; margin-top: 10px; }
         .bottom-nav { position: fixed; bottom: 0; width: 100%; height: 70px; background: rgba(255, 255, 255, 0.95); display: flex; justify-content: space-around; align-items: center; z-index: 100; border-top: 1px solid #fce7f3; }
-        .nav-button { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #9ca3af; font-size: 0.75rem; }
+        .nav-button { background: none; border: none; display: flex; flex-direction: column; align-items: center; color: #9ca3af; font-size: 0.75rem; cursor: pointer; }
         .nav-button.active { color: #db2777; }
     </style>
 </head>
 <body>
 
     <div class="sky-container">
-        <!-- 簡化天燈動畫，讓畫面更乾淨 -->
         <div class="lantern" style="width:40px; height:50px; left:10%;"></div>
         <div class="lantern" style="width:30px; height:40px; left:50%; animation-delay: 5s;"></div>
         <div class="lantern" style="width:45px; height:55px; left:80%; animation-delay: 10s;"></div>
@@ -68,43 +47,50 @@
     </header>
 
     <div class="container">
-        
-        <!-- 行程內容區 -->
+        <!-- 行程亮點 Tab -->
         <div id="itinerary-tab-view" class="tab-content active">
             <div class="schedule-card">
-                <h2 class="title">✨ 每日行程亮點</h2>
+                <h2>✨ 行程亮點</h2>
                 <div class="info-box highlight">
-                    <p>我精心安排了好多讓你放鬆的體驗，無論是深宵的熱湯還是揮棒的暢快，只為了看見你開心的笑臉 💫</p>
+                    <p><strong>Day 1：抵達台北 ─ 溫暖深夜食堂</strong><br>
+                    落地後我們直奔柯達大飯店，並在隔壁的「萬客什鍋」品嚐熱騰騰的燒酒雞，用最暖的湯幫你洗去飛行疲勞。💫</p>
+                </div>
+                <div class="info-box highlight">
+                    <p><strong>Day 2：慢活台北 ─ 揮棒釋壓 ─ 詹記麻辣鍋</strong><br>
+                    早上享受古早味早餐，漫步在華山與民生社區的樹蔭下，接著去打擊場瘋狂揮棒釋壓，晚餐再用詹記麻辣鍋慶祝 300 天！🌟</p>
+                </div>
+                <div class="info-box highlight">
+                    <p><strong>Day 3：充能補氣 ─ 文青巡禮 ─ 滿載而歸</strong><br>
+                    喝碗米其林雙月雞湯補補元氣，再去做個舒服的足湯按摩，最後逛逛永康街與榕錦時光，以完美的湯包大餐為旅程畫下句點。✨</p>
                 </div>
             </div>
-            <!-- (以下行程維持不變，僅將 icon 調整為 🌟/✨/💫) -->
-            <!-- ... (省略部分結構以利閱讀) ... -->
         </div>
 
-        <!-- 貼心提醒 Section (替代舊的行李清單) -->
+        <!-- 貼心提醒 Tab -->
         <div id="remind-tab-view" class="tab-content">
             <div class="schedule-card">
                 <h3>💫 貼心小提醒</h3>
-                <p style="margin-top:10px; line-height:1.8;">
-                    親愛的，這次旅行不需要太嚴肅的計畫表，只需要你帶上一顆最輕鬆、最享受的心情就好囉！<br><br>
-                    ✨ **最重要的就是你這個人**，其他東西我都幫你準備好了。<br>
-                    ✨ **放慢腳步**，我們一起去探索這城市的小巷子。<br>
-                    ✨ **隨時跟我說你的感受**，這三天，你的快樂就是我的全世界 🌟
+                <p style="margin-top:15px; line-height:1.8;">
+                    親愛的，因為這是一份驚喜，行李我已經幫你打理好囉！<br><br>
+                    ✨ <strong>最重要的就是你這個人</strong>，請帶著最輕鬆、享受的心情跟我出發就好。<br>
+                    ✨ <strong>放慢腳步</strong>，我們不需要趕時間，這三天所有的節奏都由我們決定。<br>
+                    ✨ <strong>專注當下</strong>，把工作與瑣事都拋在腦後，這三天你的快樂就是我的全世界 🌟
                 </p>
             </div>
         </div>
-
     </div>
 
     <nav class="bottom-nav">
-        <button class="nav-button active" onclick="switchMainTab('itinerary')"><span>📅</span><span>行程</span></button>
-        <button class="nav-button" onclick="switchMainTab('remind')"><span>💫</span><span>貼心提醒</span></button>
+        <button class="nav-button active" onclick="showTab('itinerary')"><span>📅</span><span>行程亮點</span></button>
+        <button class="nav-button" onclick="showTab('remind')"><span>💫</span><span>貼心提醒</span></button>
     </nav>
 
     <script>
-        function switchMainTab(tabName) {
+        function showTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
             document.getElementById(tabName + '-tab-view').style.display = 'block';
+            event.currentTarget.classList.add('active');
         }
     </script>
 </body>
