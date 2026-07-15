@@ -1,628 +1,731 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-HK">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>台北 3D2N 順路浪漫放鬆 WebApp</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💚 Our 300 Days - 男友極致釋壓之旅</title>
     <style>
         :root {
-            --primary: #FFB7C5; /* 櫻花粉 */
-            --primary-dark: #FF8DA1; /* 深櫻粉 */
-            --secondary: #FFF5F6; /* 超淺粉底色 */
-            --bg: #FFFFFF;
-            --card-bg: #FFFFFF;
-            --text: #4A4A4A; /* 溫柔深灰 */
-            --text-muted: #8E8E93;
-            --accent: #FF6B81; /* 戀愛紅 */
+            --bg-dark: #12161a;
+            --card-bg: rgba(30, 38, 45, 0.85);
+            --primary-orange: #ff9f43;
+            --primary-green: #2ed573;
+            --text-light: #f5f6fa;
+            --text-muted: #a4b0be;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'PingFang HK', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--secondary);
-            color: var(--text);
-            padding-bottom: 70px;
+            background: linear-gradient(135deg, #0f1115 0%, #1c100b 100%);
+            color: var(--text-light);
             overflow-x: hidden;
             position: relative;
+            padding-bottom: 50px;
         }
 
-        /* 🌸 櫻花飄落動畫效果 🌸 */
-        .cherry-container {
+        /* 台灣元素背景裝飾 */
+        .taiwan-elements {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.08;
+            background-image: 
+                radial-gradient(circle at 10% 20%, var(--primary-orange) 1px, transparent 1px),
+                radial-gradient(circle at 90% 80%, var(--primary-green) 1px, transparent 1px);
+        }
+
+        /* 飄落/上升的天燈特效 */
+        .lantern-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 2;
             overflow: hidden;
         }
 
-        .petal {
+        .lantern {
             position: absolute;
-            background: #FFB7C5;
-            border-radius: 150% 0 150% 150%;
-            opacity: 0.8;
-            animation: float 10s infinite linear;
+            background: radial-gradient(circle at 50% 30%, #fff7e6, #ff9f43 60%, rgba(255, 107, 107, 0.6));
+            border-radius: 40% 40% 50% 50% / 50% 50% 40% 40%;
+            box-shadow: 0 0 15px rgba(255, 159, 67, 0.8), inset 0 -4px 6px rgba(0,0,0,0.2);
+            opacity: 0.7;
+            animation: floatUp 15s linear infinite;
         }
 
-        @keyframes float {
+        /* 天燈底部的小火焰 */
+        .lantern::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 6px;
+            background: #ff5252;
+            border-radius: 50% 50% 20% 20%;
+            box-shadow: 0 0 4px #ff5252;
+            animation: flicker 0.2s alternate infinite;
+        }
+
+        @keyframes floatUp {
             0% {
-                transform: translate(0, -10px) rotate(0deg);
+                transform: translateY(105vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
                 opacity: 0.8;
             }
             100% {
-                transform: translate(100px, 100vh) rotate(360deg);
+                transform: translateY(-10vh) translateX(50px) rotate(15deg);
                 opacity: 0;
             }
         }
 
-        /* Header */
-        .app-header {
-            background: linear-gradient(135deg, #FFF0F2 0%, #FFE3E7 100%);
-            padding: 30px 20px;
-            text-align: center;
-            border-bottom: 1px solid #FFE3E7;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 12px rgba(255, 183, 197, 0.2);
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(0.8); opacity: 0.8; }
+            100% { transform: translateX(-50%) scale(1.2); opacity: 1; }
         }
 
-        .app-header h1 {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: var(--accent);
-            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+        /* 台灣插畫圖標 Floating Elements */
+        .taiwan-icon {
+            position: fixed;
+            font-size: 2rem;
+            opacity: 0.15;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .boba { bottom: 10%; left: 5%; animation: floatGentle 8s ease-in-out infinite; }
+        .dumpling { top: 15%; right: 5%; animation: floatGentle 10s ease-in-out infinite 1s; }
+        .taipei101 { bottom: 20%; right: 8%; animation: floatGentle 12s ease-in-out infinite 2s; font-size: 3rem; }
+        .hotpot { top: 40%; left: 3%; animation: floatGentle 9s ease-in-out infinite 3s; }
+
+        @keyframes floatGentle {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
         }
 
-        .app-header p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 6px;
-            font-weight: 500;
-        }
-
-        /* Container */
+        /* 網頁主體 Content */
         .container {
-            padding: 15px;
-            max-width: 500px;
+            max-width: 650px;
             margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
         }
 
-        /* Tab Content */
-        .tab-content {
+        /* Header 區域 */
+        header {
+            text-align: center;
+            padding: 40px 0 20px 0;
+        }
+
+        .logo-tag {
+            background: linear-gradient(90deg, var(--primary-orange), var(--primary-green));
+            color: #12161a;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 159, 67, 0.3);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #ffffff, #ffeaa7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .highlight-banner {
+            background: rgba(46, 213, 115, 0.1);
+            border-left: 4px solid var(--primary-green);
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin: 20px 0;
+            font-size: 0.9rem;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        /* Tabs 切換（天數） */
+        .day-tabs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            background: rgba(255,255,255,0.05);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 5px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-orange);
+            color: var(--bg-dark);
+            box-shadow: 0 4px 12px rgba(255, 159, 67, 0.4);
+        }
+
+        /* 日程卡片外框 */
+        .day-content {
             display: none;
         }
 
-        .tab-content.active {
+        .day-content.active {
             display: block;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.5s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Info Banner */
-        .info-card {
-            background-color: var(--card-bg);
+        /* 行程時間軸 Card */
+        .event-card {
+            background: var(--card-bg);
             border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary-dark);
-            box-shadow: 0 4px 10px rgba(255, 183, 197, 0.1);
-        }
-
-        .info-card h3 { font-size: 15px; margin-bottom: 6px; color: var(--accent); }
-        .info-card p { font-size: 13px; color: var(--text); line-height: 1.5; }
-
-        /* Timeline Styles */
-        .day-title {
-            font-size: 17px;
-            font-weight: 700;
-            margin: 25px 0 15px 5px;
-            color: var(--accent);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 20px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 5px;
-            top: 5px;
-            bottom: 5px;
-            width: 2px;
-            background-color: #FFE3E7;
-        }
-
-        .timeline-item {
-            position: relative;
+            padding: 20px;
             margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.3s ease;
         }
 
-        .timeline-dot {
-            position: absolute;
-            left: -19px;
-            top: 6px;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: var(--primary-dark);
-            border: 2px solid var(--bg);
-            box-shadow: 0 0 6px var(--primary-dark);
+        .event-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 159, 67, 0.2);
         }
 
-        .timeline-dot.highlight {
-            background-color: var(--accent);
-            box-shadow: 0 0 6px var(--accent);
-        }
-
-        .timeline-card {
-            background-color: var(--card-bg);
-            border-radius: 16px;
-            padding: 15px;
-            border: 1px solid #FFE3E7;
-            box-shadow: 0 4px 12px rgba(255, 183, 197, 0.15);
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            padding-bottom: 8px;
         }
 
         .time-badge {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--accent);
-            background-color: #FFF0F2;
-            padding: 2px 8px;
-            border-radius: 10px;
-            margin-bottom: 6px;
-            display: inline-block;
-        }
-
-        .item-title {
-            font-size: 15px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #333333;
-        }
-
-        .item-desc {
-            font-size: 13px;
-            color: #666666;
-            line-height: 1.5;
-            margin-bottom: 12px;
-        }
-
-        /* Buttons */
-        .btn-map {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #FFF0F2;
-            color: var(--accent);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            border: 1px solid #FFE3E7;
-            transition: all 0.2s;
-        }
-
-        .btn-map:active {
-            background-color: #FFE3E7;
-        }
-
-        /* List Items */
-        .list-item {
-            background-color: var(--card-bg);
-            padding: 15px;
-            border-radius: 16px;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border: 1px solid #FFE3E7;
-            box-shadow: 0 4px 10px rgba(255, 183, 197, 0.1);
-        }
-
-        .list-item-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .list-item-title { font-size: 14px; color: #333; font-weight: 600; }
-        .list-item-sub { font-size: 12px; color: var(--text-muted); }
-
-        .checkbox-custom {
-            width: 20px;
-            height: 20px;
+            background: rgba(255, 159, 67, 0.15);
+            color: var(--primary-orange);
+            padding: 4px 10px;
             border-radius: 6px;
-            border: 2px solid #FFE3E7;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .title-badge {
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #ffffff;
+            flex-grow: 1;
+            margin-left: 10px;
+        }
+
+        .optional-tag {
+            background: #57606f;
+            color: #f1f2f6;
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+
+        .highlight-box {
+            background: rgba(46, 213, 115, 0.05);
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            border-left: 3px solid var(--primary-green);
+        }
+
+        .highlight-title {
+            color: var(--primary-green);
+            font-weight: bold;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            background-color: #FFF;
         }
 
-        .checkbox-custom.checked {
-            background-color: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .checkbox-custom i {
-            color: #fff;
-            font-size: 12px;
-            display: none;
-        }
-
-        .checkbox-custom.checked i {
-            display: block;
-        }
-
-        .price-tag {
-            font-weight: 700;
-            color: var(--accent);
-            font-size: 14px;
-        }
-
-        /* Bottom Nav */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 65px;
-            background-color: rgba(255, 255, 255, 0.92);
-            border-top: 1px solid #FFE3E7;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 1000;
-            padding-bottom: env(safe-area-inset-bottom);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 -4px 12px rgba(255, 183, 197, 0.1);
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .route-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 0.85rem;
+            line-height: 1.4;
             color: var(--text-muted);
-            font-size: 10px;
-            text-decoration: none;
-            width: 20%;
-            padding: 5px 0;
-            background: none;
-            border: none;
-            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .nav-item i {
-            font-size: 18px;
+        .route-title {
+            color: #eccc68;
+            font-weight: bold;
             margin-bottom: 4px;
         }
 
-        .nav-item.active {
-            color: var(--accent);
+        /* 雙方案樣式 */
+        .choice-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 480px) {
+            .choice-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .choice-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px dashed rgba(255, 159, 67, 0.3);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .choice-badge {
+            background: var(--primary-orange);
+            color: var(--bg-dark);
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
             font-weight: bold;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 40px;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
 
-    <div class="cherry-container" id="cherry-petals"></div>
+    <div class="taiwan-elements"></div>
+    
+    <!-- 飄落天燈背景容器 -->
+    <div class="lantern-container" id="lanterns"></div>
 
-    <header class="app-header">
-        <h1>TAIPEI 3D2N APP</h1>
-        <p>🌸 順路放鬆！我們的浪漫快閃之旅 🌸</p>
-    </header>
+    <!-- 台灣特色漂浮 icon 元素 -->
+    <div class="taiwan-icon boba">🧋</div>
+    <div class="taiwan-icon dumpling">🥟</div>
+    <div class="taiwan-icon taipei101">🗼</div>
+    <div class="taiwan-icon hotpot">🍲</div>
 
     <div class="container">
         
-        <!-- TAB 1: SCHEDULE -->
-        <div id="tab-schedule" class="tab-content active">
-            <!-- DAY 1 -->
-            <div class="day-title"><i class="fa-solid fa-heart"></i> 7/31 (五) 期待的起點</div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">23:30 - 00:45</div>
-                        <div class="item-title">桃園機場降落、迎風出關</div>
-                        <div class="item-desc">驚喜降落台北！迅速過關取行李，一齊開啟甜蜜放鬆假期。</div>
-                    </div>
+        <header>
+            <div class="logo-tag">💚 OUR 300 DAYS 紀念</div>
+            <h1>台北極致釋壓療癒之旅</h1>
+            <div class="subtitle">放慢腳步 ‧ 熱血流汗 ‧ 深夜微醺 ‧ 完全充電</div>
+            
+            <div class="highlight-banner">
+                <strong>💡 旅行小目標：</strong> 這次旅行不是為了趕景點，而是專門為了讓男朋友徹底放鬆身心！不走回頭路、無縫轉場，讓多巴胺與神級 SPA 融化他所有的疲憊。
+            </div>
+        </header>
+
+        <!-- 天數切換 Tab -->
+        <div class="day-tabs">
+            <button class="tab-btn active" onclick="switchDay(1)">Day 1 (7/31)</button>
+            <button class="tab-btn" onclick="switchDay(2)">Day 2 (8/1)</button>
+            <button class="tab-btn" onclick="switchDay(3)">Day 3 (8/2)</button>
+        </div>
+
+        <!-- =================== DAY 1 =================== -->
+        <div id="day1" class="day-content active">
+            <!-- Event 1 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">23:30 - 00:45</span>
+                    <span class="title-badge">抵達台北 🛫</span>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">00:45 - 01:30</div>
-                        <div class="item-title">直奔飯店放低行李</div>
-                        <div class="item-desc">深夜直接叫 Uber 直達柯達大飯店。車程約 40 分鐘，輕鬆沒負擔。</div>
-                    </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 放鬆第一步</div>
+                    順利降落桃園機場，快步辦理入境及提取行李，準備迎接 3 天的療癒之旅。
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot highlight"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">01:50 - 03:15</div>
-                        <div class="item-title">萬客什鍋 (長安東路店) 宵夜</div>
-                        <div class="item-desc">就在飯店隔壁！走路1分鐘，深夜免排隊。熱呼呼的爆紅石頭火鍋，暖胃又甜蜜。</div>
-                        <a href="https://maps.app.goo.gl/G7fR9n7oT4Hq5wF48" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 開啟地圖</a>
-                    </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    直接於機場叫 Uber 直達<strong>【柯達大飯店 台北長安店】</strong>（車程約 35-40 分鐘，約 NT$1000-1200），享受落地不折騰的極致舒適。
                 </div>
             </div>
 
-            <!-- DAY 2 -->
-            <div class="day-title"><i class="fa-solid fa-sparkles"></i> 8/1 (六) 中山、西門文青放鬆一日遊</div>
-            <div class="timeline-item" style="margin-left:20px; margin-bottom:10px;"><p style="font-size:12px; color:var(--accent); font-weight:bold;">💡 今日特點：景點都在「捷運松山新店線」與相鄰區域，一條線玩到底，絕不走回頭路！</p></div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">11:00 - 14:00</div>
-                        <div class="item-title">中山赤峰街 文青早午餐＋散步</div>
-                        <div class="item-desc">飯店出發散步可到。吃個美美的富錦樹法式吐司，手牽手逛逛充滿日系初戀感的小選物店。</div>
-                        <a href="https://maps.app.goo.gl/N8GZ6sXAnWcR3iJm8" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 富錦樹咖啡</a>
-                    </div>
+            <!-- Event 2 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">01:45 - 03:00</span>
+                    <span class="title-badge">萬客什鍋 (長安東路店) 🍲</span>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">14:15 - 16:30</div>
-                        <div class="item-title">大魯閣棒壘球 (新莊館) 或 西門町</div>
-                        <div class="item-desc">【順路調整】如果想打棒球，改去新莊館（比內湖順路）。如果不去打球，這段時間可以悠閒去西門町拍貼、逛萬年大樓、喝楊桃冰！</div>
-                    </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 男友療癒點：深夜心靈雞湯</div>
+                    <strong>就在飯店隔壁步行 1 分鐘！</strong> 凌晨時段免排隊。必試招牌<strong>「萬客燒酒雞鍋」</strong>（現場桌邊點火表演！）與<strong>「招牌麻油炸蛋」</strong>。大口喝下溫暖雞湯，立刻洗去飛機上的疲憊。
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot highlight"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">17:00 - 19:30</div>
-                        <div class="item-title">【預約紀念日大餐】詹記麻辣火鍋 (西門店)</div>
-                        <div class="item-desc">超時髦的台式復古風！提早吃晚餐不用人擠人。吃完還可以在西門町散步消化一下。</div>
-                        <a href="https://maps.app.goo.gl/BicdCqZ2pXzW798U8" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 詹記西門店</a>
-                    </div>
+            </div>
+        </div>
+
+        <!-- =================== DAY 2 =================== -->
+        <div id="day2" class="day-content">
+            <!-- Event 1 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">09:30 - 10:30</span>
+                    <span class="title-badge">青島豆漿店 🥖</span>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot highlight"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">20:00 - 22:00</div>
-                        <div class="item-title">極致放鬆：滿憶亭養生會館 / 不老松按摩</div>
-                        <div class="item-desc">【夜店改按摩 ✨】走了一整天，帶男朋友去環境超讚、溫馨復古的精油全身按摩或腳底按摩，徹底釋放壓力，享受兩個人的安靜微甜時光。</div>
-                    </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 古早味能量</div>
+                    體驗老台北傳統炭火烘烤早餐！必喝帶有獨特木炭焦香味的<strong>「熱豆漿」</strong>配上香脆多汁的<strong>「現烤肉餅」</strong>。吃 7 分飽即可，留肚給下一站。
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">22:30 ~</div>
-                        <div class="item-title">甜蜜回飯店，睡個好覺</div>
-                        <div class="item-desc">按摩完身體暖呼呼、超好睡。回飯店一齊睇電視、飲杯台啤，完美的週年紀念夜。</div>
-                    </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    從飯店【步行約 10 分鐘】（800 米）即可抵達。
                 </div>
             </div>
 
-            <!-- DAY 3 -->
-            <div class="day-title"><i class="fa-solid fa-cloud-sun"></i> 8/2 (日) 東區、101 高空浪漫完美句點</div>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">11:00 - 11:30</div>
-                        <div class="item-title">退房、行李寄放飯店</div>
-                        <div class="item-desc">慵懶辦理 Check-out，一身輕鬆出發去信義東區。</div>
-                    </div>
+            <!-- Event 2 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">10:45 - 12:00</span>
+                    <span class="title-badge">華山 1914 文創園區 🛍️</span>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">11:45 - 13:40</div>
-                        <div class="item-title">榕錦時光生活園區 唯美老街散步</div>
-                        <div class="item-desc">搭車直達，台北最美日式木建築長廊。吃個熱騰騰的「好丘貝果」，幫彼此拍出日本約會感的浪漫初戀美照。</div>
-                        <a href="https://maps.app.goo.gl/iXw65Kzic9a6B9pG9" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 榕錦時光</a>
-                    </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 慢活散步</div>
+                    百年舊酒廠改建的紅磚建築，綠樹成蔭、步調緩慢，非常適合小兩口牽手漫步、拍質感照，大腦瞬間放空。
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot highlight"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">14:00 - 16:30</div>
-                        <div class="item-title">天空興波 Simple Kaffa (101店)</div>
-                        <div class="item-desc">榕錦時光隔壁就是信義 101 區。在 88 樓的全台最高咖啡廳喝著冠軍咖啡、俯瞰台北美景，互道週年快樂。</div>
-                        <a href="https://maps.app.goo.gl/9P8L38n7qW7wK8oP7" target="_blank" class="btn-map"><i class="fa-solid fa-location-dot"></i> 天空興波 101</a>
-                    </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通及對比</div>
+                    <strong>【捷運】：</strong> 步行至東門站，搭橘線 1 站至「忠孝新生站」，1號出口走 3 分鐘（約 15 分鐘）。<br>
+                    <strong>【Uber】：</strong> 車程約 5-8 分鐘（約 NT$120）。
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">16:30 - 18:00</div>
-                        <div class="item-title">回飯店取行李 ➡️ 前往機場</div>
-                        <div class="item-desc">拿完行李後前往台北車站搭直達機捷。</div>
-                    </div>
+            </div>
+
+            <!-- Event 3 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">12:15 - 15:30</span>
+                    <span class="title-badge">富錦樹咖啡 ➡️ 森 SPA<span class="optional-tag">Optional 彈性</span></span>
                 </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-card">
-                        <div class="time-badge">18:00 - 21:20</div>
-                        <div class="item-title">托運行李、平安回港</div>
-                        <div class="item-desc">於 18:20 前抵達機場櫃檯。帶著充電滿滿、極致療癒的身心回香港！</div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 綠蔭下的慢時光</div>
+                    在民生社區最美綠蔭下，嘆【富錦樹咖啡】手沖與<strong>「招牌法式吐司」</strong>。<br>
+                    <strong>【彈性按摩】：</strong> 如果此時覺得累，直接去隔壁【森 SPA】按足湯肩頸；若精力充沛，可跳過此按摩，將精力完全留給深夜方案！
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通及對比</div>
+                    <strong>【捷運/公車】：</strong> 轉乘繁瑣，約需 35-40 分鐘。<br>
+                    <strong>【Uber 推薦】：</strong> 由華山直達民生社區僅需 15 分鐘（約 NT$200），省時省力。
+                </div>
+            </div>
+
+            <!-- Event 4 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">15:45 - 17:30</span>
+                    <span class="title-badge">赤峰街文青行街 📸</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 300天紀念回憶</div>
+                    尋寶潮流男裝、日系老宅選物店。一起去玩爆紅的<strong>「韓國拍貼機」</strong>，戴上搞怪頭飾，拍下專屬你們 300 天的爆笑回憶相片！
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通及對比</div>
+                    <strong>【公車推薦】：</strong> 民生東路口搭「民生幹線」一線直達雙連站（約 20-25 分鐘，超方便）。<br>
+                    <strong>【Uber】：</strong> 車程約 12-15 分鐘（約 NT$160）。
+                </div>
+            </div>
+
+            <!-- Event 5 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">17:30 - 18:30</span>
+                    <span class="title-badge">寧夏夜市 (搶先熱身) 🍢</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 免排隊黃金時間</div>
+                    17:30 攤檔剛擺好，不用排隊！合吃排隊王<strong>「劉芋仔蛋黃芋餅」</strong>與<strong>「圓環邊蚵仔煎」</strong>。吃 5 分飽即可，留肚待會熱血運動！
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    從赤峰街【直接步行 8 分鐘】穿過南京西路即達。
+                </div>
+            </div>
+
+            <!-- Event 6 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">19:00 - 21:00</span>
+                    <span class="title-badge">西門大聯盟棒壘球打擊場 ⚾</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 男友最愛：熱血釋壓</div>
+                    <strong>【全新超順路優化！】</strong> 位於西門町誠品武昌店 8 樓。在冷氣房裡揮棒釋放工作壓力！還有投球九宮格與超舒壓的「專業射擊靶場（空氣槍體驗，每次 NT$100）」，多巴胺徹底爆發。
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    從寧夏夜市步行至【捷運中山站】搭綠線 2 站直達【捷運西門站】（約 15 分鐘，極速不塞車）。
+                </div>
+            </div>
+
+            <!-- Event 7 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">22:00 - 00:00</span>
+                    <span class="title-badge">詹記麻辣火鍋 (西門店) 🍲</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 多巴胺後的極致享受【已預訂 22:00】</div>
+                    打完球飢餓感拉滿的一瞬間入座！<strong>從打擊場走過來只需 3 分鐘</strong>。大口咬下像布丁般滑嫩的<strong>「果凍鴨血」</strong>與<strong>「特級牛胸肉」</strong>，這種震撼的滿足感保證讓他幸福感融化！
+                </div>
+            </div>
+
+            <!-- Event 8 - 雙方案 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">00:15 以後</span>
+                    <span class="title-badge">300天深夜驚喜雙方案 🌙</span>
+                </div>
+                <div class="choice-container">
+                    <div class="choice-card">
+                        <div class="choice-badge">方案 A：精緻微醺</div>
+                        <strong>Bar Mood Taipei 🍹</strong><br>
+                        台北世界冠軍酒吧！點一杯細緻的「茶香調酒」，完美解去火鍋的油膩，浪漫談心慶祝 300 天。<br>
+                        <small style="color:var(--text-muted)">* 交通：西門叫 Uber 約 10 分鐘即達。</small>
+                    </div>
+                    <div class="choice-card" style="border-color: var(--primary-green);">
+                        <div class="choice-badge" style="background: var(--primary-green);">方案 B：極致放鬆</div>
+                        <strong>森 SPA (林森總店) 💆</strong><br>
+                        <strong>24小時營業！</strong> 吃飽後直奔高質感日式 SPA，享受精油油壓或足浴，徹底釋放揮棒和行街的酸痛，包他今晚甜睡。<br>
+                        <small style="color:var(--text-muted)">* 交通：西門叫 Uber 8 分鐘。按完回飯店僅需 4 分鐘車程。</small>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- TAB 2: HOTEL -->
-        <div id="tab-hotel" class="tab-content">
-            <div class="day-title"><i class="fa-solid fa-hotel"></i> 下榻愛巢</div>
-            <div class="timeline-card" style="margin-bottom: 15px;">
-                <div class="item-title" style="color:var(--accent);">柯達大飯店 台北長安</div>
-                <div class="item-desc"><b>地址：</b>台北市中山區長安東路一段11號</div>
-                <div class="item-desc"><b>貼心提示：</b>飯店下樓 1 分鐘就是萬客什鍋！行去捷運中山站大約 10 分鐘，位置超好。</div>
-                <a href="https://maps.app.goo.gl/3aD4p6q8LCHasHk59" target="_blank" class="btn-map"><i class="fa-solid fa-map-pin"></i> 開啟地圖導航</a>
+        <!-- =================== DAY 3 =================== -->
+        <div id="day3" class="day-content">
+            <!-- Event 1 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">10:30 - 11:00</span>
+                    <span class="title-badge">退房 ＋ 寄放行李 🧳</span>
+                </div>
+                <div class="highlight-box">
+                    睡到自然醒，退房並將行李寄存在柯達大飯店櫃檯，最後一天輕裝出發，保持無壓力的完美心情。
+                </div>
+            </div>
+
+            <!-- Event 2 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">11:15 - 12:45</span>
+                    <span class="title-badge">雙月食品社 (科技大樓店) 🍲</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 頂級暖胃滋補</div>
+                    米其林必比登推介！必點蛤蜊多到滿溢出來、極其鮮甜的<strong>「蛤蜊燉雞湯」</strong>與古早味滷味，一口熱湯下肚，元氣滿滿。
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    從飯店搭 Uber 約 8-10 分鐘（約 NT$120）直達。
+                </div>
+            </div>
+
+            <!-- Event 3 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">13:00 - 14:30</span>
+                    <span class="title-badge">不老松足湯 (新生行館) 💆</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 登機前疲勞大清空</div>
+                    在飽餐後安排雙人全身按摩與熱足湯。將前兩天打棒球和走路積累的最後一點疲勞徹底揉開。按完後整個人會輕飄飄，上飛機前達到 100% 放鬆！
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    雙月吃飽後，搭 Uber 5 分鐘或散步前往新生北路行館。
+                </div>
+            </div>
+
+            <!-- Event 4 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">14:45 - 16:00</span>
+                    <span class="title-badge">永康街悠閒散步 ☕</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 新順路調整：直線南下</div>
+                    按摩完神清氣爽，散步極具質感和文青風的永康、麗水街巷弄。必吃香氣逼人的<strong>「天津蔥抓餅」</strong>，或來碗現刨花生碎、滑嫩養顏的<strong>「白水豆花」</strong>。
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    不老松步行至【行天宮站】搭橘線直達【東門站】（約 15 分鐘）或 Uber 10 分鐘。
+                </div>
+            </div>
+
+            <!-- Event 5 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">16:00 - 17:20</span>
+                    <span class="title-badge">榕錦時光生活園區 ⛩️</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 浪漫的日式慢時光</div>
+                    <strong>從永康街順路向下走 5-8 分鐘即達！</strong> 百年日式官署老屋群，在巨大老樹與日式長廊下漫步。下午溫柔的夕陽光線極美，最適合幫彼此拍下很有初戀感的情侶照。還可外帶一杯 **興波咖啡** 世界冠軍手沖。
+                </div>
+            </div>
+
+            <!-- Event 6 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">17:30 - 18:30</span>
+                    <span class="title-badge">濟南鮮湯包 (總店) 🥟</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 回港前美味暴擊</div>
+                    <strong>17:30 準時開門，第一批直接入座！</strong> 朝聖實力擊敗鼎泰豐的神級小店。皮薄爆汁的<strong>「原味鮮肉湯包」</strong>、鮮甜的<strong>「絲瓜蝦仁湯包」</strong>與底層金黃酥脆的<strong>「脆皮煎餃」</strong>，完美收尾。
+                </div>
+                <div class="route-box">
+                    <div class="route-title">🚂 交通指南</div>
+                    從榕錦時光搭 Uber 約 8 分鐘即達濟南路總店（約 NT$120）。
+                </div>
+            </div>
+
+            <!-- Event 7 -->
+            <div class="event-card">
+                <div class="event-header">
+                    <span class="time-badge">18:45 - 19:40</span>
+                    <span class="title-badge">回飯店取行李 ➡️ 機場 🚕</span>
+                </div>
+                <div class="highlight-box">
+                    <div class="highlight-title">🌟 體面、優雅、不折騰</div>
+                    吃得飽飽地坐車回柯達大飯店取回行李。隨即直接搭 Uber 走高速直奔桃園機場第一航廈（車程約 45-55 分鐘，約 NT$1000）。免去提行李擠捷運的疲憊，最舒服地為 300 天紀念畫下圓滿句點！
+                </div>
             </div>
         </div>
 
-        <!-- TAB 3: PACKING -->
-        <div id="tab-packing" class="tab-content">
-            <div class="day-title"><i class="fa-solid fa-heart-pulse"></i> 驚喜行前清單</div>
-            <div class="list-item" onclick="toggleCheck(this)">
-                <div class="list-item-left">
-                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
-                    <div>
-                        <div class="list-item-title">兩人的實體護照</div>
-                        <div class="list-item-sub">千萬別漏！趁他睡覺偷偷拿走</div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item" onclick="toggleCheck(this)">
-                <div class="list-item-left">
-                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
-                    <div>
-                        <div class="list-item-title">入台證（實體 A4 紙）</div>
-                        <div class="list-item-sub">提早申請免費網簽並列印出來</div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item" onclick="toggleCheck(this)">
-                <div class="list-item-left">
-                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
-                    <div>
-                        <div class="list-item-title">舒適好行的鞋子</div>
-                        <div class="list-item-sub">改為放鬆路線，穿最舒服的鞋子牽手逛街吧</div>
-                    </div>
-                </div>
-            </div>
-            <div class="list-item" onclick="toggleCheck(this)">
-                <div class="list-item-left">
-                    <div class="checkbox-custom"><i class="fa-solid fa-check"></i></div>
-                    <div>
-                        <div class="list-item-title">行動電源 (尿袋)</div>
-                        <div class="list-item-sub">必須放隨身行李攜帶，不可寄艙</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB 4: BUDGET -->
-        <div id="tab-budget" class="tab-content">
-            <div class="day-title"><i class="fa-solid fa-wallet"></i> 幸福預算花費 (2人)</div>
-            <div class="list-item">
-                <div class="list-item-left">
-                    <div>
-                        <div class="list-item-title">🚕 舒適交通</div>
-                        <div class="list-item-sub">全順路調整！捷運＋少部分 Uber</div>
-                    </div>
-                </div>
-                <div class="price-tag">HK$ 450</div>
-            </div>
-            <div class="list-item">
-                <div class="list-item-left">
-                    <div>
-                        <div class="list-item-title">🍲 美食饗宴</div>
-                        <div class="list-item-sub">萬客什、網美Brunch、好丘、詹記大餐</div>
-                    </div>
-                </div>
-                <div class="price-tag">HK$ 1,500</div>
-            </div>
-            <div class="list-item">
-                <div class="list-item-left">
-                    <div>
-                        <div class="list-item-title">💆 雙人頂級按摩</div>
-                        <div class="list-item-sub">兩個人全身或足底精油舒壓放鬆</div>
-                    </div>
-                </div>
-                <div class="price-tag">HK$ 800</div>
-            </div>
-            <div class="list-item">
-                <div class="list-item-left">
-                    <div>
-                        <div class="list-item-title">🛍️ 紀念品與手信</div>
-                        <div class="list-item-sub">打棒球娛樂與文創小店選物</div>
-                    </div>
-                </div>
-                <div class="price-tag">HK$ 1,000</div>
-            </div>
-            <div class="info-card" style="border-left-color: var(--accent); margin-top: 20px;">
-                <h3>📊 當地總預算</h3>
-                <p style="font-size: 15px; color: var(--accent); font-weight: 700; margin-top: 5px;">約 HK$ 3,500 - HK$ 4,000</p>
-                <p style="margin-top: 5px; font-size: 12px; color: #666;">去掉了夜店，換成按摩和更順的交通，預算更加精省舒服！建議準備 <b>NT$ 8,000 現金</b>即可，其餘刷卡。</p>
-            </div>
-        </div>
+        <footer>
+            <p>💚 Happy 300 Days to Us 💚</p>
+            <p style="font-size: 0.7rem; margin-top: 5px;">這趟旅程，只想讓你好好放鬆，有我在，你只管享受。✨</p>
+        </footer>
 
     </div>
 
-    <nav class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('schedule', this)">
-            <i class="fa-solid fa-calendar-days"></i>
-            <span>每日行程</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('hotel', this)">
-            <i class="fa-solid fa-hotel"></i>
-            <span>住宿地點</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('packing', this)">
-            <i class="fa-solid fa-suitcase"></i>
-            <span>行前準備</span>
-        </button>
-        <button class="nav-item" onclick="switchTab('budget', this)">
-            <i class="fa-solid fa-wallet"></i>
-            <span>費用預算</span>
-        </button>
-    </nav>
-
     <script>
-        function createPetals() {
-            const container = document.getElementById('cherry-petals');
-            const petalCount = 20; 
-            
-            for (let i = 0; i < petalCount; i++) {
-                const petal = document.createElement('div');
-                petal.classList.add('petal');
-                
-                const size = Math.random() * 8 + 6;
-                petal.style.width = size + 'px';
-                petal.style.height = size + 'px';
-                petal.style.left = Math.random() * 100 + 'vw';
-                petal.style.animationDelay = Math.random() * 8 + 's';
-                petal.style.animationDuration = Math.random() * 6 + 6 + 's';
-                
-                container.appendChild(petal);
-            }
-        }
-
-        function switchTab(tabId, element) {
-            document.querySelectorAll('.tab-content').forEach(content => {
+        // 天數切換邏輯
+        function switchDay(dayNum) {
+            // 隱藏所有內容
+            document.querySelectorAll('.day-content').forEach(content => {
                 content.classList.remove('active');
             });
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
+            // 移除按鈕 active 樣式
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
+            // 顯示當天並啟用按鈕
+            document.getElementById('day' + dayNum).classList.add('active');
+            event.target.classList.add('active');
             
-            document.getElementById('tab-' + tabId).classList.add('active');
-            element.classList.add('active');
-            window.scrollTo(0, 0);
+            // 滾動回頂部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleCheck(element) {
-            const checkbox = element.querySelector('.checkbox-custom');
-            checkbox.classList.toggle('checked');
+        // 產生漂浮天燈
+        function createLanterns() {
+            const container = document.getElementById('lanterns');
+            const lanternCount = 12; // 畫面中維持的天燈數量
+
+            for (let i = 0; i < lanternCount; i++) {
+                spawnLantern(container, true);
+            }
+
+            // 持續產生新天燈
+            setInterval(() => {
+                spawnLantern(container, false);
+            }, 3000);
         }
 
-        window.onload = createPetals;
+        function spawnLantern(container, isInit) {
+            const lantern = document.createElement('div');
+            lantern.classList.add('lantern');
+            
+            // 隨機尺寸（20px ~ 45px）
+            const size = Math.random() * 25 + 20;
+            lantern.style.width = size + 'px';
+            lantern.style.height = (size * 1.25) + 'px'; // 稍微瘦長
+
+            // 隨機水平位置
+            lantern.style.left = Math.random() * 100 + '%';
+            
+            // 隨機起動時間延遲
+            const delay = Math.random() * 10;
+            lantern.style.animationDelay = (isInit ? -delay : 0) + 's';
+            
+            // 隨機上升速度 (12s ~ 22s)
+            const duration = Math.random() * 10 + 12;
+            lantern.style.animationDuration = duration + 's';
+
+            // 隨機透明度
+            lantern.style.opacity = Math.random() * 0.4 + 0.5;
+
+            container.appendChild(lantern);
+
+            // 動畫結束後移除，防止記憶體洩漏
+            setTimeout(() => {
+                lantern.remove();
+            }, (duration + (isInit ? 0 : delay)) * 1000);
+        }
+
+        // 初始化
+        window.onload = function() {
+            createLanterns();
+        };
     </script>
 </body>
 </html>
