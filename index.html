@@ -1,88 +1,82 @@
 <!DOCTYPE html>
-<html lang="zh-HK">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💚 Our 300 Days - 男友極致釋壓之旅</title>
+    <title>300天男友釋壓之旅</title>
     <style>
+        /* ==================== 全域變數與重設 ==================== */
         :root {
-            --bg-dark: #12161a;
-            --card-bg: rgba(30, 38, 45, 0.85);
-            --primary-orange: #ff9f43;
-            --primary-green: #2ed573;
-            --text-light: #f5f6fa;
-            --text-muted: #a4b0be;
+            --bg-color: #FAF6F0; /* 溫暖柔和的奶茶暖白 */
+            --primary-color: #E2C799; /* 柔和暖金色 */
+            --primary-light: #F4EAE1; /* 極淺奶茶色，用於卡片背景 */
+            --accent-color: #C08A76; /* 莫蘭迪乾燥玫瑰色，用於點綴與按鈕 */
+            --accent-light: #F2E3DB; /* 淺粉色，點綴背景 */
+            --text-dark: #5C4B43; /* 深棕灰色，避免純黑帶來的沉重感 */
+            --text-muted: #8E7C74; /* 淺棕灰色，用於次要文字 */
+            --card-shadow: 0 8px 24px rgba(92, 75, 67, 0.05); /* 輕柔陰影 */
+            --border-radius: 16px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'PingFang HK', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(135deg, #0f1115 0%, #1c100b 100%);
-            color: var(--text-light);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Microsoft JhengHei", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 90px; /* 為底部導航列留出空間 */
             overflow-x: hidden;
             position: relative;
-            padding-bottom: 50px;
         }
 
-        /* 台灣元素背景裝飾 */
-        .taiwan-elements {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.08;
-            background-image: 
-                radial-gradient(circle at 10% 20%, var(--primary-orange) 1px, transparent 1px),
-                radial-gradient(circle at 90% 80%, var(--primary-green) 1px, transparent 1px);
-        }
-
-        /* 飄落/上升的天燈特效 */
-        .lantern-container {
+        /* ==================== 滿天星空與漂浮天燈視覺元素 ==================== */
+        .sky-background {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
             overflow: hidden;
+            background: linear-gradient(180deg, #FCF9F5 0%, #FAF6F0 100%);
         }
 
+        /* 淺色版天燈樣式：帶有溫暖橘粉色內暈的半透明天燈 */
         .lantern {
             position: absolute;
-            background: radial-gradient(circle at 50% 30%, #fff7e6, #ff9f43 60%, rgba(255, 107, 107, 0.6));
-            border-radius: 40% 40% 50% 50% / 50% 50% 40% 40%;
-            box-shadow: 0 0 15px rgba(255, 159, 67, 0.8), inset 0 -4px 6px rgba(0,0,0,0.2);
-            opacity: 0.7;
-            animation: floatUp 15s linear infinite;
+            bottom: -80px;
+            background: radial-gradient(circle at 50% 80%, rgba(253, 230, 138, 0.8) 0%, rgba(244, 164, 96, 0.4) 60%, rgba(244, 164, 96, 0.1) 100%);
+            border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+            box-shadow: 0 4px 15px rgba(244, 164, 96, 0.2), inset 0 -2px 10px rgba(255, 255, 255, 0.6);
+            animation: floatUp linear infinite;
+            filter: blur(0.5px);
         }
 
-        /* 天燈底部的小火焰 */
+        /* 天燈下方的微弱火光 */
         .lantern::after {
             content: '';
             position: absolute;
-            bottom: -3px;
+            bottom: 5%;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 6px;
-            background: #ff5252;
-            border-radius: 50% 50% 20% 20%;
-            box-shadow: 0 0 4px #ff5252;
-            animation: flicker 0.2s alternate infinite;
+            width: 15%;
+            height: 15%;
+            background: #FF8C00;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #FFD700;
+            filter: blur(1px);
+            animation: flicker 0.15s infinite alternate;
         }
 
         @keyframes floatUp {
             0% {
-                transform: translateY(105vh) translateX(0) rotate(0deg);
+                transform: translateY(0) translateX(0) rotate(0deg);
                 opacity: 0;
             }
             10% {
@@ -92,640 +86,631 @@
                 opacity: 0.8;
             }
             100% {
-                transform: translateY(-10vh) translateX(50px) rotate(15deg);
+                transform: translateY(-115vh) translateX(30px) rotate(8deg);
                 opacity: 0;
             }
         }
 
         @keyframes flicker {
-            0% { transform: translateX(-50%) scale(0.8); opacity: 0.8; }
-            100% { transform: translateX(-50%) scale(1.2); opacity: 1; }
+            0% { transform: translateX(-50%) scale(0.9); opacity: 0.8; }
+            100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
         }
 
-        /* 台灣插畫圖標 Floating Elements */
-        .taiwan-icon {
-            position: fixed;
-            font-size: 2rem;
-            opacity: 0.15;
-            z-index: 2;
-            pointer-events: none;
-        }
-        .boba { bottom: 10%; left: 5%; animation: floatGentle 8s ease-in-out infinite; }
-        .dumpling { top: 15%; right: 5%; animation: floatGentle 10s ease-in-out infinite 1s; }
-        .taipei101 { bottom: 20%; right: 8%; animation: floatGentle 12s ease-in-out infinite 2s; font-size: 3rem; }
-        .hotpot { top: 40%; left: 3%; animation: floatGentle 9s ease-in-out infinite 3s; }
-
-        @keyframes floatGentle {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(5deg); }
-        }
-
-        /* 網頁主體 Content */
-        .container {
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* Header 區域 */
+        /* ==================== 頁首 Header ==================== */
         header {
             text-align: center;
-            padding: 40px 0 20px 0;
+            padding: 40px 20px 20px 20px;
+            position: relative;
         }
 
-        .logo-tag {
-            background: linear-gradient(90deg, var(--primary-orange), var(--primary-green));
-            color: #12161a;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(255, 159, 67, 0.3);
-        }
-
-        h1 {
+        header h1 {
             font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-            background: linear-gradient(to right, #ffffff, #ffeaa7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-dark);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
         }
 
-        .subtitle {
+        header p {
             font-size: 0.95rem;
             color: var(--text-muted);
-            line-height: 1.5;
+            font-weight: 300;
         }
 
-        .highlight-banner {
-            background: rgba(46, 213, 115, 0.1);
-            border-left: 4px solid var(--primary-green);
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
-            margin: 20px 0;
-            font-size: 0.9rem;
-            text-align: left;
-            line-height: 1.4;
+        /* ==================== 主容器與版面切換 ==================== */
+        .container {
+            max-width: 500px; /* 鎖定在最適合手機閱讀的黃金寬度 */
+            margin: 0 auto;
+            padding: 0 16px;
         }
 
-        /* Tabs 切換（天數） */
-        .day-tabs {
+        .page-content {
+            display: none; /* 預設隱藏所有分頁 */
+        }
+
+        .page-content.active {
+            display: block; /* 激活時顯示 */
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ==================== 1. 每日行程 (卡片設計) ==================== */
+        /* 天數分頁按鈕 */
+        .day-selector {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            background: rgba(255,255,255,0.05);
-            padding: 6px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
+            background-color: var(--primary-light);
+            padding: 4px;
+            border-radius: 30px;
+            margin-bottom: 24px;
         }
 
-        .tab-btn {
+        .day-btn {
             flex: 1;
             background: none;
             border: none;
+            padding: 10px 0;
+            font-size: 0.9rem;
+            font-weight: 600;
             color: var(--text-muted);
-            padding: 12px 5px;
-            font-size: 0.95rem;
-            font-weight: bold;
-            border-radius: 8px;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .tab-btn.active {
-            background: var(--primary-orange);
-            color: var(--bg-dark);
-            box-shadow: 0 4px 12px rgba(255, 159, 67, 0.4);
+        .day-btn.active {
+            background-color: white;
+            color: var(--accent-color);
+            box-shadow: 0 4px 10px rgba(92, 75, 67, 0.05);
         }
 
-        /* 日程卡片外框 */
-        .day-content {
-            display: none;
+        /* 時間軸行程卡片 */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
         }
 
-        .day-content.active {
+        /* 時間軸豎線 */
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background-color: var(--primary-light);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 28px;
+        }
+
+        /* 時間軸小圓點 */
+        .timeline-badge {
+            position: absolute;
+            left: -20px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: 2px solid white;
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .timeline-time {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 4px;
             display: block;
-            animation: fadeIn 0.5s ease;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 18px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(244, 234, 225, 0.6);
         }
 
-        /* 行程時間軸 Card */
-        .event-card {
-            background: var(--card-bg);
-            border-radius: 16px;
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        /* ==================== 2. 交通 / 3. 住宿 / 4. 行李 卡片 ==================== */
+        .info-card {
+            background: white;
+            border-radius: var(--border-radius);
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            transition: transform 0.3s ease;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(244, 234, 225, 0.6);
         }
 
-        .event-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 159, 67, 0.2);
-        }
-
-        .event-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .info-card h3 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
             margin-bottom: 12px;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--primary-light);
             padding-bottom: 8px;
         }
 
-        .time-badge {
-            background: rgba(255, 159, 67, 0.15);
-            color: var(--primary-orange);
-            padding: 4px 10px;
-            border-radius: 6px;
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .info-list li::before {
+            content: '•';
+            color: var(--accent-color);
             font-weight: bold;
+        }
+
+        /* ==================== 功能性按鈕樣式 ==================== */
+        /* 一鍵開啟 Google Map 導航按鈕 */
+        .btn-map {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            background-color: var(--accent-light);
+            color: var(--accent-color);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 12px;
             font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
         }
 
-        .title-badge {
-            font-size: 1.05rem;
-            font-weight: bold;
-            color: #ffffff;
-            flex-grow: 1;
-            margin-left: 10px;
+        .btn-map:active {
+            transform: scale(0.98);
+            background-color: #E6D4CB;
         }
 
-        .optional-tag {
-            background: #57606f;
-            color: #f1f2f6;
+        /* ==================== 底部導航列 Bottom Navigation ==================== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 20px rgba(92, 75, 67, 0.04);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 100;
+            border-top: 1px solid rgba(244, 234, 225, 0.8);
+            padding-bottom: env(safe-area-inset-bottom); /* 適配無邊框 iPhone 的底部白條 */
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: var(--text-muted);
             font-size: 0.75rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            margin-left: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex: 1;
+            height: 100%;
         }
 
-        .highlight-box {
-            background: rgba(46, 213, 115, 0.05);
-            border-radius: 8px;
-            padding: 10px 12px;
-            margin-bottom: 12px;
-            font-size: 0.88rem;
-            line-height: 1.4;
-            border-left: 3px solid var(--primary-green);
-        }
-
-        .highlight-title {
-            color: var(--primary-green);
-            font-weight: bold;
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
             margin-bottom: 4px;
+            fill: currentColor;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .nav-item.active svg {
+            transform: translateY(-2px);
+        }
+
+        /* ==================== 行李打勾清單功能 ==================== */
+        .todo-item {
             display: flex;
             align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            cursor: pointer;
         }
 
-        .route-box {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 8px;
-            padding: 10px 12px;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            color: var(--text-muted);
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .route-title {
-            color: #eccc68;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        /* 雙方案樣式 */
-        .choice-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        @media (min-width: 480px) {
-            .choice-container {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .choice-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px dashed rgba(255, 159, 67, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-        }
-
-        .choice-badge {
-            background: var(--primary-orange);
-            color: var(--bg-dark);
-            font-size: 0.75rem;
-            padding: 2px 8px;
+        .todo-item input[type="checkbox"] {
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--accent-light);
             border-radius: 4px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
+            outline: none;
+            background-color: white;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-top: 40px;
-            line-height: 1.6;
+        .todo-item input[type="checkbox"]:checked {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .todo-item input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: white;
+            font-size: 12px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+        }
+
+        .todo-item input[type="checkbox"]:checked + span {
+            text-decoration: line-through;
+            color: #C1B5B0;
         }
     </style>
 </head>
 <body>
 
-    <div class="taiwan-elements"></div>
-    
-    <!-- 飄落天燈背景容器 -->
-    <div class="lantern-container" id="lanterns"></div>
+    <!-- 背景特效容器 -->
+    <div class="sky-background" id="lanterns"></div>
 
-    <!-- 台灣特色漂浮 icon 元素 -->
-    <div class="taiwan-icon boba">🧋</div>
-    <div class="taiwan-icon dumpling">🥟</div>
-    <div class="taiwan-icon taipei101">🗼</div>
-    <div class="taiwan-icon hotpot">🍲</div>
+    <!-- 頁首 -->
+    <header>
+        <h1>300天釋壓之旅</h1>
+        <p>好好充電，滿血回歸 🏮</p>
+    </header>
 
-    <div class="container">
-        
-        <header>
-            <div class="logo-tag">💚 OUR 300 DAYS 紀念</div>
-            <h1>台北極致釋壓療癒之旅</h1>
-            <div class="subtitle">放慢腳步 ‧ 熱血流汗 ‧ 深夜微醺 ‧ 完全充電</div>
-            
-            <div class="highlight-banner">
-                <strong>💡 旅行小目標：</strong> 這次旅行不是為了趕景點，而是專門為了讓男朋友徹底放鬆身心！不走回頭路、無縫轉場，讓多巴胺與神級 SPA 融化他所有的疲憊。
-            </div>
-        </header>
+    <!-- 主要內容區 -->
+    <main class="container">
 
-        <!-- 天數切換 Tab -->
-        <div class="day-tabs">
-            <button class="tab-btn active" onclick="switchDay(1)">Day 1 (7/31)</button>
-            <button class="tab-btn" onclick="switchDay(2)">Day 2 (8/1)</button>
-            <button class="tab-btn" onclick="switchDay(3)">Day 3 (8/2)</button>
-        </div>
-
-        <!-- =================== DAY 1 =================== -->
-        <div id="day1" class="day-content active">
-            <!-- Event 1 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">23:30 - 00:45</span>
-                    <span class="title-badge">抵達台北 🛫</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 放鬆第一步</div>
-                    順利降落桃園機場，快步辦理入境及提取行李，準備迎接 3 天的療癒之旅。
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    直接於機場叫 Uber 直達<strong>【柯達大飯店 台北長安店】</strong>（車程約 35-40 分鐘，約 NT$1000-1200），享受落地不折騰的極致舒適。
-                </div>
+        <!-- ==================== 頁面一：每日行程 ==================== -->
+        <section id="page-itinerary" class="page-content active">
+            <!-- 天數切換按鈕 -->
+            <div class="day-selector">
+                <button class="day-btn active" onclick="switchDay(1)">Day 1</button>
+                <button class="day-btn" onclick="switchDay(2)">Day 2</button>
+                <button class="day-btn" onclick="switchDay(3)">Day 3</button>
             </div>
 
-            <!-- Event 2 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">01:45 - 03:00</span>
-                    <span class="title-badge">萬客什鍋 (長安東路店) 🍲</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 男友療癒點：深夜心靈雞湯</div>
-                    <strong>就在飯店隔壁步行 1 分鐘！</strong> 凌晨時段免排隊。必試招牌<strong>「萬客燒酒雞鍋」</strong>（現場桌邊點火表演！）與<strong>「招牌麻油炸蛋」</strong>。大口喝下溫暖雞湯，立刻洗去飛機上的疲憊。
-                </div>
-            </div>
-        </div>
-
-        <!-- =================== DAY 2 =================== -->
-        <div id="day2" class="day-content">
-            <!-- Event 1 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">09:30 - 10:30</span>
-                    <span class="title-badge">青島豆漿店 🥖</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 古早味能量</div>
-                    體驗老台北傳統炭火烘烤早餐！必喝帶有獨特木炭焦香味的<strong>「熱豆漿」</strong>配上香脆多汁的<strong>「現烤肉餅」</strong>。吃 7 分飽即可，留肚給下一站。
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    從飯店【步行約 10 分鐘】（800 米）即可抵達。
-                </div>
-            </div>
-
-            <!-- Event 2 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">10:45 - 12:00</span>
-                    <span class="title-badge">華山 1914 文創園區 🛍️</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 慢活散步</div>
-                    百年舊酒廠改建的紅磚建築，綠樹成蔭、步調緩慢，非常適合小兩口牽手漫步、拍質感照，大腦瞬間放空。
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通及對比</div>
-                    <strong>【捷運】：</strong> 步行至東門站，搭橘線 1 站至「忠孝新生站」，1號出口走 3 分鐘（約 15 分鐘）。<br>
-                    <strong>【Uber】：</strong> 車程約 5-8 分鐘（約 NT$120）。
-                </div>
-            </div>
-
-            <!-- Event 3 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">12:15 - 15:30</span>
-                    <span class="title-badge">富錦樹咖啡 ➡️ 森 SPA<span class="optional-tag">Optional 彈性</span></span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 綠蔭下的慢時光</div>
-                    在民生社區最美綠蔭下，嘆【富錦樹咖啡】手沖與<strong>「招牌法式吐司」</strong>。<br>
-                    <strong>【彈性按摩】：</strong> 如果此時覺得累，直接去隔壁【森 SPA】按足湯肩頸；若精力充沛，可跳過此按摩，將精力完全留給深夜方案！
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通及對比</div>
-                    <strong>【捷運/公車】：</strong> 轉乘繁瑣，約需 35-40 分鐘。<br>
-                    <strong>【Uber 推薦】：</strong> 由華山直達民生社區僅需 15 分鐘（約 NT$200），省時省力。
-                </div>
-            </div>
-
-            <!-- Event 4 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">15:45 - 17:30</span>
-                    <span class="title-badge">赤峰街文青行街 📸</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 300天紀念回憶</div>
-                    尋寶潮流男裝、日系老宅選物店。一起去玩爆紅的<strong>「韓國拍貼機」</strong>，戴上搞怪頭飾，拍下專屬你們 300 天的爆笑回憶相片！
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通及對比</div>
-                    <strong>【公車推薦】：</strong> 民生東路口搭「民生幹線」一線直達雙連站（約 20-25 分鐘，超方便）。<br>
-                    <strong>【Uber】：</strong> 車程約 12-15 分鐘（約 NT$160）。
-                </div>
-            </div>
-
-            <!-- Event 5 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">17:30 - 18:30</span>
-                    <span class="title-badge">寧夏夜市 (搶先熱身) 🍢</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 免排隊黃金時間</div>
-                    17:30 攤檔剛擺好，不用排隊！合吃排隊王<strong>「劉芋仔蛋黃芋餅」</strong>與<strong>「圓環邊蚵仔煎」</strong>。吃 5 分飽即可，留肚待會熱血運動！
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    從赤峰街【直接步行 8 分鐘】穿過南京西路即達。
-                </div>
-            </div>
-
-            <!-- Event 6 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">19:00 - 21:00</span>
-                    <span class="title-badge">西門大聯盟棒壘球打擊場 ⚾</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 男友最愛：熱血釋壓</div>
-                    <strong>【全新超順路優化！】</strong> 位於西門町誠品武昌店 8 樓。在冷氣房裡揮棒釋放工作壓力！還有投球九宮格與超舒壓的「專業射擊靶場（空氣槍體驗，每次 NT$100）」，多巴胺徹底爆發。
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    從寧夏夜市步行至【捷運中山站】搭綠線 2 站直達【捷運西門站】（約 15 分鐘，極速不塞車）。
-                </div>
-            </div>
-
-            <!-- Event 7 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">22:00 - 00:00</span>
-                    <span class="title-badge">詹記麻辣火鍋 (西門店) 🍲</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 多巴胺後的極致享受【已預訂 22:00】</div>
-                    打完球飢餓感拉滿的一瞬間入座！<strong>從打擊場走過來只需 3 分鐘</strong>。大口咬下像布丁般滑嫩的<strong>「果凍鴨血」</strong>與<strong>「特級牛胸肉」</strong>，這種震撼的滿足感保證讓他幸福感融化！
-                </div>
-            </div>
-
-            <!-- Event 8 - 雙方案 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">00:15 以後</span>
-                    <span class="title-badge">300天深夜驚喜雙方案 🌙</span>
-                </div>
-                <div class="choice-container">
-                    <div class="choice-card">
-                        <div class="choice-badge">方案 A：精緻微醺</div>
-                        <strong>Bar Mood Taipei 🍹</strong><br>
-                        台北世界冠軍酒吧！點一杯細緻的「茶香調酒」，完美解去火鍋的油膩，浪漫談心慶祝 300 天。<br>
-                        <small style="color:var(--text-muted)">* 交通：西門叫 Uber 約 10 分鐘即達。</small>
+            <!-- Day 1 行程 -->
+            <div id="day-1-content" class="day-content">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">13:30</span>
+                        <div class="card">
+                            <h4 class="card-title">🛬 台北松山機場 集合</h4>
+                            <p class="card-desc">輕鬆抵達市區，展開專屬的釋壓假期。</p>
+                            <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=台北松山機場" target="_blank">📍 開啟地圖導航</a>
+                        </div>
                     </div>
-                    <div class="choice-card" style="border-color: var(--primary-green);">
-                        <div class="choice-badge" style="background: var(--primary-green);">方案 B：極致放鬆</div>
-                        <strong>森 SPA (林森總店) 💆</strong><br>
-                        <strong>24小時營業！</strong> 吃飽後直奔高質感日式 SPA，享受精油油壓或足浴，徹底釋放揮棒和行街的酸痛，包他今晚甜睡。<br>
-                        <small style="color:var(--text-muted)">* 交通：西門叫 Uber 8 分鐘。按完回飯店僅需 4 分鐘車程。</small>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">14:00 - 15:30</span>
+                        <div class="card">
+                            <h4 class="card-title">🏨 飯店 Check-in 放置行李</h4>
+                            <p class="card-desc">先到飯店放行李、稍微梳洗，用最輕便的狀態出發。</p>
+                            <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=台北喜來登大飯店" target="_blank">📍 導航至飯店</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">16:00 - 18:00</span>
+                        <div class="card">
+                            <h4 class="card-title">⚾ 大聯盟棒球打擊場 (揮灑汗水)</h4>
+                            <p class="card-desc">到大魯閣打擊練習場，把積累的壓力一口氣隨球揮棒擊飛！</p>
+                            <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=大魯閣棒壘球打擊場" target="_blank">📍 導航至打擊場</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">18:30 - 20:30</span>
+                        <div class="card">
+                            <h4 class="card-title">🍲 暖心晚餐：頂級麻辣鍋</h4>
+                            <p class="card-desc">用熱騰騰的奢華美食慰勞自己，讓身體熱起來、胃袋暖呼呼。</p>
+                            <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=詹記麻辣火鍋敦南店" target="_blank">📍 導航至餐廳</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">21:00 ~ 深夜</span>
+                        <div class="card">
+                            <h4 class="card-title">💆‍♂️ 男友釋壓雙方案 (依精神狀態選擇)</h4>
+                            <p class="card-desc">A 方案：精油全身油壓放鬆，極致舒緩睡眠。<br>B 方案：隱密質感酒吧，小酌微醺暢聊。</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- =================== DAY 3 =================== -->
-        <div id="day3" class="day-content">
-            <!-- Event 1 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">10:30 - 11:00</span>
-                    <span class="title-badge">退房 ＋ 寄放行李 🧳</span>
-                </div>
-                <div class="highlight-box">
-                    睡到自然醒，退房並將行李寄存在柯達大飯店櫃檯，最後一天輕裝出發，保持無壓力的完美心情。
+            <!-- Day 2 行程 -->
+            <div id="day-2-content" class="day-content" style="display: none;">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">09:30 - 11:30</span>
+                        <div class="card">
+                            <h4 class="card-title">☕ 慢活早午餐</h4>
+                            <p class="card-desc">不起大早、不趕時間，找一間陽光溫柔灑落的靜謐咖啡廳，品嚐慢步調的早餐。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">13:00 - 16:00</span>
+                        <div class="card">
+                            <h4 class="card-title">🚗 出發平溪：感受山城綠意</h4>
+                            <p class="card-desc">搭乘平溪線支線小火車，一路上看著窗外的翠綠山景與溪流，讓雙眼與身心彻底被綠意洗滌。</p>
+                            <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=十分車站" target="_blank">📍 導航至十分車站</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">16:30 - 18:30</span>
+                        <div class="card">
+                            <h4 class="card-title">🏮 十分老街寫天燈 & 祈福</h4>
+                            <p class="card-desc">在天燈上寫下對彼此真摯的祈願。看著天燈帶著兩人的願望緩緩升空，是洗滌心靈的最佳時刻。</p>
+                            <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=十分老街" target="_blank">📍 導航至十分老街</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">19:30 - 21:30</span>
+                        <div class="card">
+                            <h4 class="card-title">🥩 頂級精緻燒肉晚餐</h4>
+                            <p class="card-desc">回到市區享用專人代烤的頂級燒肉，用香氣撲鼻的 A5 和牛撫平平日的疲憊。</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Event 2 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">11:15 - 12:45</span>
-                    <span class="title-badge">雙月食品社 (科技大樓店) 🍲</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 頂級暖胃滋補</div>
-                    米其林必比登推介！必點蛤蜊多到滿溢出來、極其鮮甜的<strong>「蛤蜊燉雞湯」</strong>與古早味滷味，一口熱湯下肚，元氣滿滿。
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    從飯店搭 Uber 約 8-10 分鐘（約 NT$120）直達。
-                </div>
-            </div>
-
-            <!-- Event 3 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">13:00 - 14:30</span>
-                    <span class="title-badge">不老松足湯 (新生行館) 💆</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 登機前疲勞大清空</div>
-                    在飽餐後安排雙人全身按摩與熱足湯。將前兩天打棒球和走路積累的最後一點疲勞徹底揉開。按完後整個人會輕飄飄，上飛機前達到 100% 放鬆！
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    雙月吃飽後，搭 Uber 5 分鐘或散步前往新生北路行館。
-                </div>
-            </div>
-
-            <!-- Event 4 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">14:45 - 16:00</span>
-                    <span class="title-badge">永康街悠閒散步 ☕</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 新順路調整：直線南下</div>
-                    按摩完神清氣爽，散步極具質感和文青風的永康、麗水街巷弄。必吃香氣逼人的<strong>「天津蔥抓餅」</strong>，或來碗現刨花生碎、滑嫩養顏的<strong>「白水豆花」</strong>。
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    不老松步行至【行天宮站】搭橘線直達【東門站】（約 15 分鐘）或 Uber 10 分鐘。
+            <!-- Day 3 行程 -->
+            <div id="day-3-content" class="day-content" style="display: none;">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">10:00 - 12:00</span>
+                        <div class="card">
+                            <h4 class="card-title">🌳 陽明山森呼吸 或是 飯店懶人補眠</h4>
+                            <p class="card-desc">A 方案：上陽明山，踩在草地上吸飽新鮮森林芬多精。<br>B 方案：退房前睡到飽、泡個熱水澡再出發。</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">12:30 - 14:30</span>
+                        <div class="card">
+                            <h4 class="card-title">🍵 貓空景觀茶餐廳 (遠眺台北)</h4>
+                            <p class="card-desc">搭乘纜車前往貓空，在山間茶餐廳一邊品茗、一邊俯瞰整座台北盆地，把視野與格局放寬。</p>
+                            <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=貓空纜車" target="_blank">📍 導航至貓空纜車</a>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-badge"></div>
+                        <span class="timeline-time">15:30 - 17:00</span>
+                        <div class="card">
+                            <h4 class="card-title">🎁 手信採買 & 準備返程</h4>
+                            <p class="card-desc">回到機場周邊，購買暖心的糕點與紀念品，帶著充飽電的身心靈返回溫馨的家。</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Event 5 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">16:00 - 17:20</span>
-                    <span class="title-badge">榕錦時光生活園區 ⛩️</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 浪漫的日式慢時光</div>
-                    <strong>從永康街順路向下走 5-8 分鐘即達！</strong> 百年日式官署老屋群，在巨大老樹與日式長廊下漫步。下午溫柔的夕陽光線極美，最適合幫彼此拍下很有初戀感的情侶照。還可外帶一杯 **興波咖啡** 世界冠軍手沖。
-                </div>
+        <!-- ==================== 頁面二：交通資訊 ==================== -->
+        <section id="page-transport" class="page-content">
+            <div class="info-card">
+                <h3>🚇 台北市區移動</h3>
+                <ul class="info-list">
+                    <li>悠遊卡 / 乘車碼：出門前請確保電子錢包已加值，搭乘捷運與公車最方便。</li>
+                    <li>若累積走路行程較多，感到疲憊時，建議可靈活使用 Uber 或計程車直達。</li>
+                </ul>
             </div>
-
-            <!-- Event 6 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">17:30 - 18:30</span>
-                    <span class="title-badge">濟南鮮湯包 (總店) 🥟</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 回港前美味暴擊</div>
-                    <strong>17:30 準時開門，第一批直接入座！</strong> 朝聖實力擊敗鼎泰豐的神級小店。皮薄爆汁的<strong>「原味鮮肉湯包」</strong>、鮮甜的<strong>「絲瓜蝦仁湯包」</strong>與底層金黃酥脆的<strong>「脆皮煎餃」</strong>，完美收尾。
-                </div>
-                <div class="route-box">
-                    <div class="route-title">🚂 交通指南</div>
-                    從榕錦時光搭 Uber 約 8 分鐘即達濟南路總店（約 NT$120）。
-                </div>
+            <div class="info-card">
+                <h3>🚂 平溪郊區一日行</h3>
+                <ul class="info-list">
+                    <li>瑞芳車站轉乘：從台北車站搭乘台鐵區間車至瑞芳車站，再轉乘平溪支線小火車。</li>
+                    <li>悠遊卡直接刷卡即可進站，方便又省時。</li>
+                </ul>
             </div>
+        </section>
 
-            <!-- Event 7 -->
-            <div class="event-card">
-                <div class="event-header">
-                    <span class="time-badge">18:45 - 19:40</span>
-                    <span class="title-badge">回飯店取行李 ➡️ 機場 🚕</span>
-                </div>
-                <div class="highlight-box">
-                    <div class="highlight-title">🌟 體面、優雅、不折騰</div>
-                    吃得飽飽地坐車回柯達大飯店取回行李。隨即直接搭 Uber 走高速直奔桃園機場第一航廈（車程約 45-55 分鐘，約 NT$1000）。免去提行李擠捷運的疲憊，最舒服地為 300 天紀念畫下圓滿句點！
-                </div>
+        <!-- ==================== 頁面三：住宿資訊 ==================== -->
+        <section id="page-lodging" class="page-content">
+            <div class="info-card">
+                <h3>🏨 台北喜來登大飯店</h3>
+                <ul class="info-list">
+                    <li><strong>入住日期：</strong>Day 1 - Day 3</li>
+                    <li><strong>飯店特色：</strong>緊鄰善導寺捷運站，位置極佳，並配有頂級三溫暖與超放鬆的寢具。</li>
+                    <li><strong>退房時間：</strong>上午 11:00 之前</li>
+                </ul>
+                <a class="btn-map" href="https://www.google.com/maps/dir/?api=1&destination=台北喜來登大飯店" target="_blank">🗺️ 導航至喜來登大飯店</a>
             </div>
-        </div>
+        </section>
 
-        <footer>
-            <p>💚 Happy 300 Days to Us 💚</p>
-            <p style="font-size: 0.7rem; margin-top: 5px;">這趟旅程，只想讓你好好放鬆，有我在，你只管享受。✨</p>
-        </footer>
+        <!-- ==================== 頁面四：行李清單 ==================== -->
+        <section id="page-luggage" class="page-content">
+            <div class="info-card">
+                <h3>🎒 必帶物品與證件</h3>
+                <div class="todo-item"><input type="checkbox"> <span>身分證 / 健保卡</span></div>
+                <div class="todo-item"><input type="checkbox"> <span>悠遊卡 / 信用卡</span></div>
+                <div class="todo-item"><input type="checkbox"> <span>手機、充電器、行動電源</span></div>
+            </div>
+            <div class="info-card">
+                <h3>👕 釋壓穿搭與藥品</h3>
+                <div class="todo-item"><input type="checkbox"> <span>最寬鬆舒適的衣物、好走的鞋子</span></div>
+                <div class="todo-item"><input type="checkbox"> <span>雨傘 / 雨衣 (北部山區天氣多變)</span></div>
+                <div class="todo-item"><input type="checkbox"> <span>常用藥品 / 貼布 (預防萬一)</span></div>
+            </div>
+        </section>
 
-    </div>
+    </main>
 
+    <!-- ==================== 底部導航列 ==================== -->
+    <nav class="bottom-nav">
+        <button class="nav-item active" onclick="switchPage('itinerary', this)">
+            <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
+            每日行程
+        </button>
+        <button class="nav-item" onclick="switchPage('transport', this)">
+            <svg viewBox="0 0 24 24"><path d="M12 2c-4 0-7 2.08-7 5v10c0 2.92 3 5 7 5s7-2.08 7-5V7c0-2.92-3-5-7-5zm5 11c0 .55-.45 1-1 1h-1v2c0 .55-.45 1-1 1h-6c-.55 0-1-.45-1-1v-2H6c-.55 0-1-.45-1-1v-3h12v3zm0-4.5c0 .28-.22.5-.5.5h-11c-.28 0-.5-.22-.5-.5v-2c0-.28.22-.5.5-.5h11c.28 0 .5.22.5.5v2z"/></svg>
+            交通
+        </button>
+        <button class="nav-item" onclick="switchPage('lodging', this)">
+            <svg viewBox="0 0 24 24"><path d="M17 5H3V3h14v2zm4 11V9c0-2.21-1.79-4-4-4H7c-2.21 0-4 1.79-4 4v7c-1.1 0-2 .9-2 2v3h2v-2h18v2h2v-3c0-1.1-.9-2-2-2zm-10-1H5v-3h6v3zm8 0h-6v-3h6v3z"/></svg>
+            住宿
+        </button>
+        <button class="nav-item" onclick="switchPage('luggage', this)">
+            <svg viewBox="0 0 24 24"><path d="M17 6h-2V3c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H5c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM9 3h6v3H9V3zm10 16H5V8h14v11z"/></svg>
+            行李
+        </button>
+    </nav>
+
+    <!-- ==================== JavaScript ==================== -->
     <script>
-        // 天數切換邏輯
-        function switchDay(dayNum) {
-            // 隱藏所有內容
-            document.querySelectorAll('.day-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            // 移除按鈕 active 樣式
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // 顯示當天並啟用按鈕
-            document.getElementById('day' + dayNum).classList.add('active');
-            event.target.classList.add('active');
-            
-            // 滾動回頂部
+        // --- 1. 頁面切換控制 (Tab Switch) ---
+        function switchPage(pageId, btnElement) {
+            // 隱藏所有頁面
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // 顯示指定頁面
+            const activePage = document.getElementById('page-' + pageId);
+            if (activePage) {
+                activePage.classList.add('active');
+            }
+
+            // 更新導航列按鈕狀態
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // 切換頁面時自動滑動回頂部
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 產生漂浮天燈
+        // --- 2. 每日行程「天數分頁」切換 ---
+        function switchDay(dayNum) {
+            // 隱藏所有天數的內容
+            const dayContents = document.querySelectorAll('.day-content');
+            dayContents.forEach(content => content.style.display = 'none');
+
+            // 顯示當天行程
+            const activeDayContent = document.getElementById(`day-${dayNum}-content`);
+            if (activeDayContent) {
+                activeDayContent.style.display = 'block';
+            }
+
+            // 更新天數按鈕樣式
+            const dayButtons = document.querySelectorAll('.day-btn');
+            dayButtons.forEach((btn, index) => {
+                if (index === (dayNum - 1)) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // --- 3. 動態天燈生成邏輯 (淺色暖橘色調) ---
         function createLanterns() {
             const container = document.getElementById('lanterns');
-            const lanternCount = 12; // 畫面中維持的天燈數量
+            const initialLanternCount = 8; // 初始化天燈數量
 
-            for (let i = 0; i < lanternCount; i++) {
+            // 初始生成天燈
+            for (let i = 0; i < initialLanternCount; i++) {
                 spawnLantern(container, true);
             }
 
-            // 持續產生新天燈
+            // 後續定時生成新天燈
             setInterval(() => {
                 spawnLantern(container, false);
-            }, 3000);
+            }, 5000);
         }
 
-        function spawnLantern(container, isInit) {
+        function spawnLantern(container, isInitial) {
             const lantern = document.createElement('div');
             lantern.classList.add('lantern');
-            
-            // 隨機尺寸（20px ~ 45px）
-            const size = Math.random() * 25 + 20;
-            lantern.style.width = size + 'px';
-            lantern.style.height = (size * 1.25) + 'px'; // 稍微瘦長
 
-            // 隨機水平位置
+            // 隨機大小 (微調使在手機版上尺寸合適)
+            const size = Math.random() * 20 + 20; // 20px - 40px
+            lantern.style.width = size + 'px';
+            lantern.style.height = (size * 1.25) + 'px';
+
+            // 隨機水平起始位置
             lantern.style.left = Math.random() * 100 + '%';
+
+            // 隨機動畫延遲與持續時間
+            const delay = Math.random() * 12;
+            const duration = Math.random() * 12 + 15; // 15秒至27秒，緩慢上升
             
-            // 隨機起動時間延遲
-            const delay = Math.random() * 10;
-            lantern.style.animationDelay = (isInit ? -delay : 0) + 's';
-            
-            // 隨機上升速度 (12s ~ 22s)
-            const duration = Math.random() * 10 + 12;
             lantern.style.animationDuration = duration + 's';
+            if (isInitial) {
+                // 如果是初始生成，用負的延遲讓天燈分布在半空中
+                lantern.style.animationDelay = `-${delay}s`;
+            } else {
+                lantern.style.animationDelay = '0s';
+            }
 
             // 隨機透明度
-            lantern.style.opacity = Math.random() * 0.4 + 0.5;
+            lantern.style.opacity = Math.random() * 0.3 + 0.4; // 0.4 - 0.7
 
             container.appendChild(lantern);
 
-            // 動畫結束後移除，防止記憶體洩漏
+            // 動畫結束後自動刪除，釋放記憶體
+            const totalLifetime = isInitial ? (duration - delay) : duration;
             setTimeout(() => {
                 lantern.remove();
-            }, (duration + (isInit ? 0 : delay)) * 1000);
+            }, totalLifetime * 1000);
         }
 
-        // 初始化
-        window.onload = function() {
+        // 頁面載入完成後啟動天燈
+        window.addEventListener('DOMContentLoaded', () => {
             createLanterns();
-        };
+        });
     </script>
 </body>
 </html>
