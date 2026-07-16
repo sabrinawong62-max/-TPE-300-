@@ -16,7 +16,7 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
             /* 輕盈柔和的日落餘暉漸層：溫柔奶茶色到暖暖淡橘 */
             background: linear-gradient(to bottom, #fffcf9 0%, #fef5eb 40%, #fdf0e2 100%);
-            color: #5c4d44;
+            color: #4a3a30;
             min-height: 100vh;
             padding-bottom: 90px; /* 為底部導航留空間 */
             overflow-x: hidden;
@@ -24,60 +24,34 @@
         }
 
         /* -------------------------------------------------- */
-/* 升級版：更加耀眼且具厚度的漂浮天燈效果 */
-/* -------------------------------------------------- */
-.sky-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1;
-    overflow: hidden;
-}
+        /* 升級版：更加耀眼且具厚度的漂浮天燈效果 */
+        /* -------------------------------------------------- */
+        .sky-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* 不干擾點擊 */
+            z-index: 1;
+            overflow: hidden;
+        }
 
-.lantern {
-    position: absolute;
-    bottom: -150px;
-    /* 核心改進：中心加入高光，邊緣半透明，製造玻璃/紙質質感 */
-    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, rgba(251, 146, 60, 0.5) 60%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 20px 20px 10px 10px;
-    /* 強力光暈層 */
-    box-shadow: 
-        0 0 30px rgba(251, 146, 60, 0.6), 
-        0 0 60px rgba(253, 186, 116, 0.4),
-        inset 0 0 10px rgba(255, 255, 255, 0.5);
-    animation: floatAndSway 24s infinite linear;
-    opacity: 0;
-}
-
-/* 天燈晃動動畫優化 */
-@keyframes floatAndSway {
-    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.9; }
-    50% { transform: translateY(-50vh) translateX(30px) rotate(5deg); }
-    90% { opacity: 0.9; }
-    100% { transform: translateY(-110vh) translateX(-20px) rotate(-5deg); opacity: 0; }
-}
-
-/* -------------------------------------------------- */
-/* 強化版：更通透的磨砂玻璃效果 (Glassmorphism) */
-/* -------------------------------------------------- */
-header, .schedule-card, .detail-card, .bottom-nav {
-    background: rgba(255, 255, 255, 0.4) !important; /* 降低背景不透明度 */
-    backdrop-filter: blur(20px) saturate(180%);     /* 加強模糊與飽和度 */
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.7) !important; /* 更明亮的邊框 */
-    box-shadow: 0 8px 32px 0 rgba(180, 150, 130, 0.15) !important; /* 柔和陰影 */
-}
-
-/* 額外優化：讓卡片內部的文字更清晰 */
-.schedule-card, .detail-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.3) 100%) !important;
-}
-
+        /* 核心改進：中心加入高光，邊緣半透明，製造玻璃/紙質質感 */
+        .lantern {
+            position: absolute;
+            bottom: -150px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, rgba(251, 146, 60, 0.5) 60%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px 20px 10px 10px;
+            /* 強力暖橘光暈層 */
+            box-shadow: 
+                0 0 30px rgba(251, 146, 60, 0.6), 
+                0 0 60px rgba(253, 186, 116, 0.4),
+                inset 0 0 10px rgba(255, 255, 255, 0.5);
+            animation: floatAndSway 24s infinite linear;
+            opacity: 0;
+        }
 
         /* 天燈底部的燭火微光 */
         .lantern::after {
@@ -103,11 +77,13 @@ header, .schedule-card, .detail-card, .bottom-nav {
         .lantern:nth-child(6) { width: 48px; height: 65px; left: 16%; animation-duration: 29s; animation-delay: 15s; }
         .lantern:nth-child(7) { width: 52px; height: 72px; left: 58%; animation-duration: 24s; animation-delay: 9s; }
 
+        /* 天燈晃動動畫優化：帶有輕微傾斜（skew） */
         @keyframes floatAndSway {
-            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-            8% { opacity: 0.85; }
-            90% { opacity: 0.85; }
-            100% { transform: translateY(-120vh) translateX(50px) rotate(15deg); opacity: 0; }
+            0% { transform: translateY(0) translateX(0) rotate(0deg) skewX(0deg); opacity: 0; }
+            10% { opacity: 0.9; }
+            50% { transform: translateY(-50vh) translateX(30px) rotate(5deg) skewX(3deg); }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(-110vh) translateX(-20px) rotate(-5deg) skewX(-2deg); opacity: 0; }
         }
 
         @keyframes flicker {
@@ -116,19 +92,27 @@ header, .schedule-card, .detail-card, .bottom-nav {
         }
 
         /* -------------------------------------------------- */
-        /* 浪漫優雅少女風排版與樣式                             */
+        /* 強化版：更通透的極致磨砂玻璃效果 (Glassmorphism)        */
         /* -------------------------------------------------- */
         
+        header, .schedule-card, .detail-card, .bottom-nav {
+            /* 降低不透明度至 0.18，讓背景與天燈更完美透出 */
+            background: rgba(255, 255, 255, 0.18) !important; 
+            /* 保留適度的模糊度與稍微提高飽和度，形成高級的水晶霧面感 */
+            backdrop-filter: blur(12px) saturate(160%) !important;
+            -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
+            /* 晶瑩剔透的細白邊框，模擬玻璃邊緣受光反射 */
+            border: 1px solid rgba(255, 255, 255, 0.55) !important;
+            /* 柔和的落影，讓卡片有浮起來的立體感 */
+            box-shadow: 0 8px 32px 0 rgba(180, 150, 130, 0.1) !important;
+        }
+
         /* 頂部 Header */
         header {
             position: relative;
             z-index: 10;
             text-align: center;
             padding: 40px 20px;
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(251, 146, 60, 0.15);
             margin-bottom: 24px;
         }
 
@@ -147,15 +131,16 @@ header, .schedule-card, .detail-card, .bottom-nav {
 
         header h1 {
             font-size: 1.45rem;
-            color: #8A6851; /* brown，增添浪漫感 */
+            color: #4a3a30; /* 加深確保可讀性 */
             margin-bottom: 10px;
             letter-spacing: 1px;
             font-weight: 800;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
         }
 
         header p {
             font-size: 0.9rem;
-            color: #94857B;
+            color: #6e5d53;
             font-weight: 500;
         }
 
@@ -177,8 +162,11 @@ header, .schedule-card, .detail-card, .bottom-nav {
 
         .day-tab {
             flex: 1;
-            background: rgba(255, 255, 255, 0.7);
-            border: 1px solid rgba(251, 146, 60, 0.2);
+            /* 配合透明玻璃感的子導航標籤 */
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             padding: 12px 0;
             border-radius: 50px;
             font-size: 0.9rem;
@@ -207,14 +195,9 @@ header, .schedule-card, .detail-card, .bottom-nav {
 
         /* 少女感滿滿的日程卡片 */
         .schedule-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 24px;
             padding: 22px;
             margin-bottom: 18px;
-            box-shadow: 0 6px 18px rgba(251, 146, 60, 0.03);
             transition: transform 0.2s;
         }
 
@@ -237,27 +220,34 @@ header, .schedule-card, .detail-card, .bottom-nav {
             display: flex;
             align-items: center;
             gap: 6px;
+            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
         }
 
         .card-desc {
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #5c4d44;
+            color: #4a3a30;
             margin-bottom: 14px;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5); /* 文字微光，在透明底色上更好讀 */
         }
 
-        /* 交通與甜蜜叮嚀特別提示框 */
+        /* 交通與甜蜜叮嚀特別提示框 (維持微透底色以凸顯對比) */
         .info-box {
             border-radius: 16px;
             padding: 14px 16px;
             margin-bottom: 14px;
             font-size: 0.9rem;
             line-height: 1.6;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
         .info-box.boyfriend-highlight {
-            background-color: #fff5f5; /* 輕柔粉紅底 */
+            background-color: rgba(255, 245, 245, 0.6); /* 輕柔半透粉紅底 */
             border-left: 4px solid #fecdd3;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            border-right: 1px solid rgba(255,255,255,0.3);
         }
 
         .info-box.boyfriend-highlight .highlight-title {
@@ -270,12 +260,15 @@ header, .schedule-card, .detail-card, .bottom-nav {
         }
 
         .info-box.traffic-guide {
-            background-color: #fbfbfa; /* 日系米灰 */
-            border-left: 4px solid #e5e5e5;
+            background-color: rgba(251, 251, 250, 0.6); /* 半透日系米灰 */
+            border-left: 4px solid #d4d4d4;
+            border-top: 1px solid rgba(255,255,255,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            border-right: 1px solid rgba(255,255,255,0.3);
         }
 
         .info-box.traffic-guide .traffic-title {
-            color: #737373;
+            color: #525252;
             font-weight: 700;
             margin-bottom: 6px;
         }
@@ -286,9 +279,10 @@ header, .schedule-card, .detail-card, .bottom-nav {
             align-items: center;
             justify-content: center;
             gap: 6px;
-            background-color: #fafaf9;
-            color: #78716c;
-            border: 1px solid #e7e5e4;
+            background-color: rgba(250, 250, 249, 0.5);
+            backdrop-filter: blur(5px);
+            color: #57534e;
+            border: 1px solid rgba(231, 229, 228, 0.6);
             padding: 12px;
             border-radius: 14px;
             font-size: 0.9rem;
@@ -300,7 +294,7 @@ header, .schedule-card, .detail-card, .bottom-nav {
         }
 
         .map-button:active {
-            background-color: #f5f5f4;
+            background-color: rgba(245, 245, 244, 0.8);
         }
 
         /* 雙方案卡片排版 */
@@ -312,7 +306,8 @@ header, .schedule-card, .detail-card, .bottom-nav {
         }
 
         .option-item {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
             border: 1px dashed #fca5a5;
             border-radius: 18px;
             padding: 18px;
@@ -331,13 +326,9 @@ header, .schedule-card, .detail-card, .bottom-nav {
 
         /* 其它分頁卡片樣式 */
         .detail-card {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 24px;
             padding: 26px 22px;
             margin-bottom: 18px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.02);
         }
 
         .detail-card h3 {
@@ -379,15 +370,12 @@ header, .schedule-card, .detail-card, .bottom-nav {
             left: 0;
             right: 0;
             height: 70px;
-            background-color: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-top: 1px solid rgba(251, 146, 60, 0.15);
+            border-top: 1px solid rgba(255, 255, 255, 0.4) !important;
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 1000;
-            box-shadow: 0 -5px 25px rgba(251, 146, 60, 0.05);
+            box-shadow: 0 -5px 25px rgba(180, 150, 130, 0.08) !important;
         }
 
         .nav-button {
@@ -395,7 +383,7 @@ header, .schedule-card, .detail-card, .bottom-nav {
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #a3a3a3;
+            color: #8c8581;
             text-decoration: none;
             font-size: 0.75rem;
             font-weight: 500;
