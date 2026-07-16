@@ -24,35 +24,60 @@
         }
 
         /* -------------------------------------------------- */
-        /* 升級版：更加耀眼明顯的漂浮天燈效果 (Floating Lanterns) */
-        /* -------------------------------------------------- */
-        .sky-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none; /* 不干擾點擊 */
-            z-index: 1;
-            overflow: hidden;
-        }
+/* 升級版：更加耀眼且具厚度的漂浮天燈效果 */
+/* -------------------------------------------------- */
+.sky-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
 
-        /* 強化天燈視覺：顏色更溫暖，光暈更明顯 */
-        .lantern {
-            position: absolute;
-            bottom: -120px;
-            background: linear-gradient(to top, 
-                rgba(251, 146, 60, 0.6) 0%,    /* 明亮暖橘 */
-                rgba(253, 186, 116, 0.45) 50%, /* 溫柔淡橘 */
-                rgba(254, 243, 199, 0.25) 100% /* 頂部微黃 */
-            );
-            border-radius: 16px 16px 8px 8px;
-            box-shadow: 
-                0 0 25px rgba(251, 146, 60, 0.45), 
-                0 0 50px rgba(254, 215, 170, 0.3);
-            animation: floatAndSway 24s infinite linear;
-            opacity: 0;
-        }
+.lantern {
+    position: absolute;
+    bottom: -150px;
+    /* 核心改進：中心加入高光，邊緣半透明，製造玻璃/紙質質感 */
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.4) 0%, rgba(251, 146, 60, 0.5) 60%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px 20px 10px 10px;
+    /* 強力光暈層 */
+    box-shadow: 
+        0 0 30px rgba(251, 146, 60, 0.6), 
+        0 0 60px rgba(253, 186, 116, 0.4),
+        inset 0 0 10px rgba(255, 255, 255, 0.5);
+    animation: floatAndSway 24s infinite linear;
+    opacity: 0;
+}
+
+/* 天燈晃動動畫優化 */
+@keyframes floatAndSway {
+    0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.9; }
+    50% { transform: translateY(-50vh) translateX(30px) rotate(5deg); }
+    90% { opacity: 0.9; }
+    100% { transform: translateY(-110vh) translateX(-20px) rotate(-5deg); opacity: 0; }
+}
+
+/* -------------------------------------------------- */
+/* 強化版：更通透的磨砂玻璃效果 (Glassmorphism) */
+/* -------------------------------------------------- */
+header, .schedule-card, .detail-card, .bottom-nav {
+    background: rgba(255, 255, 255, 0.4) !important; /* 降低背景不透明度 */
+    backdrop-filter: blur(20px) saturate(180%);     /* 加強模糊與飽和度 */
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.7) !important; /* 更明亮的邊框 */
+    box-shadow: 0 8px 32px 0 rgba(180, 150, 130, 0.15) !important; /* 柔和陰影 */
+}
+
+/* 額外優化：讓卡片內部的文字更清晰 */
+.schedule-card, .detail-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.3) 100%) !important;
+}
+
 
         /* 天燈底部的燭火微光 */
         .lantern::after {
