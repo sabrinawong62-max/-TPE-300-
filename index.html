@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌸 300日special ‧ 專屬我的papi嘅sabai叉電 3D2N 台北之旅 🌸</title>
+    <title>🌸300日special🌸</title>
     <style>
         /* 基礎重設與柔和背景 */
         *, *::before, *::after {
@@ -155,7 +155,7 @@
         /* 每日行程子導航 */
         .day-switcher {
             display: flex;
-            gap: 6px;
+            gap: 10px;
             margin-bottom: 24px;
         }
 
@@ -168,7 +168,7 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
             padding: 12px 0;
             border-radius: 50px;
-            font-size: 0.82rem;
+            font-size: 0.9rem;
             font-weight: bold;
             color: #8a7060;
             cursor: pointer;
@@ -226,18 +226,6 @@
             line-height: 1.6;
             color: #5c4d44; /* 保持原來的字色 */
             margin-bottom: 14px;
-        }
-
-        /* 行程照片插入點樣式 */
-        .card-photo {
-            width: 100%;
-            border-radius: 16px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 15px rgba(180, 150, 130, 0.15);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            display: block;
-            object-fit: cover;
         }
 
         /* 交通與甜蜜叮嚀特別提示框 (維持微透底色以凸顯對比) */
@@ -412,6 +400,16 @@
         .nav-icon {
             font-size: 1.35rem;
         }
+
+        /* 新增：準備期相片排版樣式 */
+        .prep-image {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 16px;
+            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.4);
+        }
     </style>
 </head>
 <body>
@@ -429,7 +427,7 @@
 
     <!-- 頂部標題 -->
     <header>
-        <span class="anniversary-badge">🌟 300 Days of us 🌟</span>
+        <span class="anniversary-badge">🌟 專屬我papi嘅sabai叉電 3D2N 台北之旅 🌟</span>
         <h1>My papipu，300天快樂！<br>專屬你的Sabai放鬆台北之旅</h1>
         <p>呢三日，我只要你把疲憊留下，被我暖暖的愛包圍 🫶🏻</p>
     </header>
@@ -441,30 +439,36 @@
         <!-- ================================================== -->
         <div id="itinerary-tab-view" class="tab-content active">
             
-            <!-- 每日切換器 (已加入 Day 0) -->
+            <!-- 每日切換器 -->
             <div class="day-switcher">
                 <div class="day-tab active" onclick="switchDay(0)">Day 0 準備</div>
-                <div class="day-tab" onclick="switchDay(1)">Day 1 達陣</div>
+                <div class="day-tab" onclick="switchDay(1)">Day 1  達陣</div>
                 <div class="day-tab" onclick="switchDay(2)">Day 2 Sabai</div>
-                <div class="day-tab" onclick="switchDay(3)">Day 3 叉電</div>
+                <div class="day-tab" onclick="switchDay(3)">Day 3 叉叉電</div>
             </div>
 
-            <!-- Day 0 (新加入的行前準備) -->
+            <!-- Day 0 -->
             <div id="day-0-section" class="day-view-container">
                 <div class="schedule-card">
-                    <span class="time-tag time-badge">Before Trip ‧ 精心策劃</span>
-                    <h2 class="card-title">📱 萬事俱備！專屬你的小編導上線</h2>
-                    <p class="card-desc">為咗呢個 300 日特別驚喜，我已經默默將所有酒店、車輛、餐廳同按摩行程全部 book 晒啦！仲特意背著你親手敲代碼整咗呢個專屬行程小網站，希望我的 papi 一打開就感受到爆棚嘅幸福感 🤍</p>
-                    <!-- 第一張照片 -->
-                    <img src="https://i.imgur.com/vHq1Xm2.jpg" alt="我的準備照片" class="card-photo">
+                    <span class="time-tag time-badge">Before Trip</span>
+                    <h2 class="card-title">✨ 驚喜秘密籌備中 ‧ 完美出發前奏</h2>
+                    <p class="card-desc">為咗等我嘅 papi 能夠享受最極致、最放鬆嘅 300 日旅行，所有機票、溫馨小窩、高難度餐廳、仲有按摩行程，我一早就默默幫你全部 book 好晒、妥當安排好晒 lu！</p>
+                    <div class="info-box boyfriend-highlight">
+                        <div class="highlight-title">💫 專屬你的療癒點 ‧ 只要跟住我走就得</div>
+                        我仲特意親手整咗呢個專屬我哋嘅甜蜜網頁，等你可以一眼睇晒所有行程細節！你今次真係完全唔使帶個腦去，所有嘢都有我喺度 🤍
+                    </div>
+                    <img src="https://i.imgur.com/Ni6O6Qu.png" alt="秘密籌備驚喜" class="prep-image">
                 </div>
 
                 <div class="schedule-card">
-                    <span class="time-tag time-badge">Departure Day ‧ 貼心打包</span>
-                    <h2 class="card-title">🧳 暖男出動！去你屋企親手執行李</h2>
-                    <p class="card-desc">出發當日，我直接化身專屬小管家，來到你屋企幫你親手一件件收拾、核對行李。你乜都唔需要煩，唔使帶腦，放鬆享受就得！因為最重要嘅生活必需品——「我」，已經百分之百打包好準備陪住你啦 😚🫶🏻</p>
-                    <!-- 第二張照片 -->
-                    <img src="https://i.imgur.com/vHq1Xm2.jpg" alt="執行李照片" class="card-photo">
+                    <span class="time-tag time-badge">Departure Day</span>
+                    <h2 class="card-title">🧳 暖心突擊！去你屋企幫你執行李</h2>
+                    <p class="card-desc">出發當日，我直接化身成為你嘅專屬貼心小管家，親自去你屋企幫你細心打點好出行嘅每一樣衣物同裝備！</p>
+                    <div class="info-box boyfriend-highlight">
+                        <div class="highlight-title">💫 專屬你的療癒點 ‧ 台北 Fashion Show 預備</div>
+                        等我幫你配搭好最型、最舒服嘅穿搭，你負責開高高興興出發就得。一邊幫你收拾行李，心入面一邊期待緊接下來同你手牽手漫步台北嘅畫面，真係好幸福 🤍
+                    </div>
+                    <img src="https://i.imgur.com/Ni6O6Qu.png" alt="幫papi執行李" class="prep-image">
                 </div>
             </div>
 
@@ -472,7 +476,7 @@
             <div id="day-1-section" class="day-view-container" style="display: none;">
                 <div class="schedule-card">
                     <span class="time-tag time-badge">23:30 - 00:45</span>
-                    <h2 class="card-title">🛬如果想開心 為什麼需要等～</h2>
+                    <h2 class="card-title">🛬沿路的苦等 已變做美感～</h2>
                     <p class="card-desc">順利降落桃園機場lu！我會陪你一起開開心心辦理入境、拿好行李，台北的三天浪漫約會正式開始！</p>
                 </div>
 
@@ -488,10 +492,10 @@
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">01:45 - 03:00</span>
-                    <h2 class="card-title">🍲 【第 1 餐】一碗暖湯的鼓舞─ 萬客什鍋</h2>
+                    <h2 class="card-title">🍲 【第 1 餐】幸福處隨時吻到星空 ─ 萬客什鍋</h2>
                     <div class="info-box boyfriend-highlight">
                         <div class="highlight-title">💫 專屬你的療癒點 ‧ 暖暖胃也暖暖心</div>
-                        <strong>深夜的小驚喜：</strong>這家超厲害的火鍋就在飯店隔壁，走過去只要 1 分鐘！而且這個凌晨時間完全不用辛苦排隊喔！
+                        <strong>深夜的小驚喜：</strong>這家超厲害的預約困難火鍋就在飯店隔壁，走過去只要 1 分鐘！而且這個凌晨時間完全不用辛苦排隊喔！
                         <br><strong>我想帶你吃：</strong>現場點火噴發香甜酒香的<strong>「萬客燒酒雞鍋」，配上吸飽美味湯汁的「招牌麻油炸蛋」</strong>。坐完飛機的疲勞，就用這口熱熱的湯幫你一次消散，看你吃得飽飽睡好覺，就是我的心願 🤍
                     </div>
                     <a href="https://www.google.com/maps/search/?api=1&query=萬客什鍋+長安東路店" target="_blank" class="map-button">📍 點我開啟萬客什鍋導航</a>
@@ -517,11 +521,11 @@
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">10:45 - 12:00</span>
-                    <h2 class="card-title">🛍️ 【慢活散步】這就是旅行的意義 ─ 華山 1914 文創園區</h2>
+                    <h2 class="card-title">🛍️ 【慢活散步】平淡之中製造一些些浪漫 ─ 華山 1914 文創園區</h2>
                     <div class="info-box boyfriend-highlight">
                         <div class="highlight-title">💫 專屬你的療癒點 ‧ 陪在你身邊就很平靜</div>
                         這裡是由舊酒廠改建的紅磚建築，被好多綠色大樹包圍著，環境真的很清幽。我想牽著你的手，慢慢地、沒有任何壓力地在這邊散步。
-                        這裡有很多潮流玩具快閃店和可愛的手作選物，在這裡時間會過得很慢，能讓你平日緊繃的大腦好好放鬆下來。
+                        這裡有很多潮流玩具快閃店 and 可愛的手作選物，在這裡時間會過得很慢，能讓你平日緊繃的大腦好好放鬆下來。
                     </div>
                     <div class="info-box traffic-guide">
                         <div class="traffic-title">🚂 交通小指南</div>
@@ -533,7 +537,7 @@
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">12:15 - 15:30</span>
-                    <h2 class="card-title">☕ 💆 【民生社區慢活】慢慢喜歡你 慢慢和你走在一起 － 富錦樹咖啡店 ➡️ (Optional) 森 SPA 彈性按摩</h2>
+                    <h2 class="card-title">☕ 💆 【民生社區慢活】慢慢喜歡你 慢慢和你走在一起 － 富錦樹咖啡店 ➡️ <br>(add-on行程) 森 SPA 彈性按摩</h2>
                     <div class="info-box boyfriend-highlight">
                         <div class="highlight-title">💫 專屬你的療癒點 ‧ 慢步在台北最美社區</div>
                         我想帶你去台北最漂亮、樹蔭最多的民生社區！我們要一起在【富錦樹咖啡】享受悠閒下午茶，喝著冠軍手沖，還有大口吃極致香濃、甜進心坎裡的<strong>「招牌法式吐司」</strong>。
@@ -550,7 +554,7 @@
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">15:45 - 17:30</span>
-                    <h2 class="card-title">🛍️ 【台北最潮約會】如不可跟你逛想逛的街 人又談何愉快 ─ 赤峰街小巷</h2>
+                    <h2 class="card-title">🛍️ 【台北最潮約會】我想兩人散步更溫馨 醉後互訴哪怕言語不清 ─ 赤峰街小巷</h2>
                     <div class="info-box boyfriend-highlight">
                         <div class="highlight-title">💫 專屬你的療癒點 ‧ 留下我們的 300 天足跡</div>
                         我們要穿梭在文青日系服飾店、復古選物店 and 香香的潮流香氛店裡。
@@ -566,7 +570,7 @@
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">17:30 - 18:30</span>
-                    <h2 class="card-title">🍢 【第 4 餐】全身暑假 投奔 ─ 寧夏夜市</h2>
+                    <h2 class="card-title">🍢 【第 4 餐】全身暑假 投奔寧夏夜市</h2>
                     <div class="info-box boyfriend-highlight">
                         <div class="highlight-title">💫 專屬你的療癒點 ‧ 避開人潮的秘密通道</div>
                         傍晚 17:30 攤位剛擺好，我特別查過，這時候去完全不用大排長龍！
@@ -602,7 +606,7 @@
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">21:00 - 21:50</span>
-                    <h2 class="card-title">🚶 貼心空檔：換上乾淨衣服，準備大吃火鍋！</h2>
+                    <h2 class="card-title">🚶 貼心空檔：換衫衫行街街，準備大jap！</h2>
                     <div class="info-box traffic-guide">
                         <div class="traffic-title">🚂 貼心小動線</div>
                         流完汗之後，我們先在誠品稍微擦汗、換上一件舒服乾淨的衣服，然後【走路 3 分鐘】就到隔壁街區的【詹記】。在門口開開心心等待 22:00 入座，不用跑來跑去，最優雅、最舒服了！
@@ -735,7 +739,7 @@
                 <div class="schedule-card">
                     <span class="time-tag time-badge">19:40 - 21:20</span>
                     <h2 class="card-title">✈️ 與你說些無聊事 再挽手幾千里✨期待我們的下一個 3000, 30000, 3000000天 🫶🏻😚✨</h2>
-                    <p class="card-desc">我們一起辦理登機手續，在免稅店做最後的衝刺購物，然後起飛回港。親愛的，謝謝你這 300 天來對我的愛護，以後的每一天，也都要一起手牽手走下去喔papi 😚🫶🏻</p>
+                    <p class="card-desc">我們一起check-in，在免稅店做最後的衝刺購物，然後起飛回港。親愛的，謝謝你這 300 天來對我的愛護，以後的每一天，也都要一起手牽手走下去喔papi 😚🫶🏻</p>
                 </div>
             </div>
 
@@ -853,10 +857,11 @@
 
         // 2. 切換每日行程子分頁 (Day 0 / 1 / 2 / 3)
         function switchDay(dayNumber) {
+            const days = [0, 1, 2, 3];
+            
             // 切換子標籤樣式
-            document.querySelectorAll('.day-tab').forEach((tab) => {
-                // 獲取目前的標籤文字內容來進行精準比對
-                if (tab.getAttribute('onclick').includes(`switchDay(${dayNumber})`)) {
+            document.querySelectorAll('.day-tab').forEach((tab, index) => {
+                if (index === dayNumber) {
                     tab.classList.add('active');
                 } else {
                     tab.classList.remove('active');
@@ -864,11 +869,10 @@
             });
 
             // 顯示對應天數內容
-            const days = [0, 1, 2, 3];
-            days.forEach(d => {
-                const section = document.getElementById(`day-${d}-section`);
+            days.forEach(i => {
+                const section = document.getElementById(`day-${i}-section`);
                 if (section) {
-                    if (d === dayNumber) {
+                    if (i === dayNumber) {
                         section.style.display = 'block';
                     } else {
                         section.style.display = 'none';
