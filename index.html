@@ -98,7 +98,7 @@
         header, .schedule-card, .detail-card, .bottom-nav {
             /* 降低不透明度至 0.18，讓背景與天燈更完美透出 */
             background: rgba(255, 255, 255, 0.18) !important; 
-            /* 保留適度的模糊度與稍微提高飽和度，形成高級的水晶霧面感 */
+            /* 保留適度的模糊度與稍微提高飽倦度，形成高級的水晶霧面感 */
             backdrop-filter: blur(12px) saturate(160%) !important;
             -webkit-backdrop-filter: blur(12px) saturate(160%) !important;
             /* 晶瑩剔透的細白邊框，模擬玻璃邊緣受光反射 */
@@ -294,7 +294,7 @@
             background-color: rgba(245, 245, 244, 0.8);
         }
 
-        /* 雙方案卡片排版 */
+        /* 雙方案 / 多方案卡片排版 */
         .options-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -478,13 +478,13 @@
             <div id="day-1-section" class="day-view-container" style="display: none;">
                 <div class="schedule-card">
                     <span class="time-tag time-badge">23:30 - 00:45</span>
-                    <h2 class="card-title">🛬沿路的苦等 已變做美感～</h2>
+                    <h2 class="card-title">🛬 沿路的苦等 已變做美感～</h2>
                     <p class="card-desc">順利降落桃園機場lu！我會陪你一起開開心心辦理入境、拿好行李，台北的三天浪漫約會正式開始！</p>
                 </div>
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">01:00 - 01:30</span>
-                    <h2 class="card-title">🚕手牽手，我們一起走～</h2>
+                    <h2 class="card-title">🚕 手牽手，我們一起走～</h2>
                     <div class="info-box traffic-guide">
                         <div class="traffic-title">🚂 貼心交通小指南</div>
                         我決定一落地就用最舒服的方式！我們直接在機場叫一台暖呼呼的 Uber，直達<strong>【柯達大飯店 台北長安店】</strong>（車程大約 35-40 分鐘，費用約 NT$1000-1200）。不用你花心思想路線，一落地就享受最極致的呵護！
@@ -494,13 +494,29 @@
 
                 <div class="schedule-card">
                     <span class="time-tag time-badge">01:45 - 03:00</span>
-                    <h2 class="card-title">🍲 【第 1 餐】幸福處隨時吻到星空 ─ 萬客什鍋</h2>
+                    <h2 class="card-title">🍲 🌙 【第 1 餐】深夜食堂彈性三選一 ─ 今晚你想點樣慶祝？</h2>
                     <div class="info-box boyfriend-highlight">
-                        <div class="highlight-title">💫 專屬你的療癒點 ‧ 暖暖胃也暖暖心</div>
-                        <strong>深夜的小驚喜：</strong>這家超厲害的預約困難火鍋就在飯店隔壁，走過去只要 1 分鐘！而且這個凌晨時間完全不用辛苦排隊喔！
-                        <br><strong>我想帶你吃：</strong>現場點火噴發香甜酒香的<strong>「萬客燒酒雞鍋」，配上吸飽美味湯汁的「招牌麻油炸蛋」</strong>。坐完飛機的疲勞，就用這口熱熱的湯幫你一次消散，看你吃得飽飽睡好覺，就是我的心願 🤍
+                        <div class="highlight-title">💫 專屬你的療癒點 ‧ 落地第一晚的浪漫微醺與美味</div>
+                        深夜抵達台北，我準備咗三個完全不同風格嘅宵夜提案！睇下寶貝今晚想食熱辣辣嘅美味火鍋、去超潮 Bar 飲一杯，定係來個經典客製拉麵，完全跟住你嘅心情同體力走 💖
                     </div>
-                    <a href="https://www.google.com/maps/search/?api=1&query=萬客什鍋+長安東路店" target="_blank" class="map-button">📍 點我開啟萬客什鍋導航</a>
+
+                    <div class="options-grid">
+                        <div class="option-item">
+                            <span class="option-tag">Option A ‧ 暖胃經典火鍋</span>
+                            <p class="card-desc"><strong>萬客什鍋 (長安東路店)</strong><br>就在飯店隔壁，走路 1 分鐘！深夜時間完全不用辛苦排隊～現場點火噴發香甜酒香的<strong>「萬客燒酒雞鍋」</strong>配上<strong>「招牌麻油炸蛋」</strong>。一口熱湯幫你一次消散坐飛機的疲勞，看你吃得飽飽睡好覺 🤍</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=萬客什鍋+長安東路店" target="_blank" class="map-button">📍 點我開啟萬客什鍋導航</a>
+                        </div>
+                        <div class="option-item">
+                            <span class="option-tag">Option B ‧ 信義區潮流微醺</span>
+                            <p class="card-desc"><strong>Fake Sober Taipei</strong><br>台北信義區超火紅的潮流 Cafe & Bar！白天的咖啡店，深夜變成超 Chill 的街頭酒吧。微醺音樂加上極棒的 Vibes，兩個人手牽手喝一杯特調/披薩，開啟最浪漫又潮味的台北第一夜 🥂</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Fake+Sober+Taipei" target="_blank" class="map-button">📍 點我開啟 Fake Sober 導航</a>
+                        </div>
+                        <div class="option-item">
+                            <span class="option-tag">Option C ‧ 24H 滋補拉麵</span>
+                            <p class="card-desc"><strong>一蘭拉麵 (台灣台北本店 / 別館)</strong><br>24 小時不打烊的濃厚豚骨拉麵！如果深夜想來一碗熱騰騰、純粹又暖心的拉麵，或者外帶回飯店窩在床上輕鬆大快朵頤，完全隨心所欲！</p>
+                            <a href="https://www.google.com/maps/search/?api=1&query=一蘭拉麵+台灣台北本店" target="_blank" class="map-button">📍 點我開啟一蘭拉麵導航</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -510,7 +526,7 @@
                     <span class="time-tag time-badge">09:30 - 10:30</span>
                     <h2 class="card-title">🍼 【第 2 餐】陽光於10點半鐘...吃古早味brekkie ─ 青島豆漿店</h2>
                     <div class="info-box boyfriend-highlight">
-                        <div class="highlight-title">💫專屬你的療癒點 ‧ 老台北的早晨浪漫</div>
+                        <div class="highlight-title">💫 專屬你的療癒點 ‧ 老台北的早晨浪漫</div>
                         我想帶你體驗純手工、用炭火烘烤出來的傳統台北古早美味。
                         <br><strong>我們一起吃：</strong>點一碗帶有獨特木炭焦香味的<strong>「熱豆漿」，再配上外皮好酥脆、肉汁滿滿的「現烤肉餅」</strong>。我們要用最在地、最有人情味的台式早餐開啟元氣滿滿的一天。（悄悄話：我們吃 7 分飽就好唷，我還留了好多肚子要帶你吃下一站！）
                     </div>
@@ -542,7 +558,7 @@
                     <h2 class="card-title">☕ 💆 【民生社區慢活】慢慢喜歡你 慢慢和你走在一起 － 富錦樹咖啡店 ➡️ <br>(add-on行程) 森 SPA 彈性按摩</h2>
                     <div class="info-box boyfriend-highlight">
                         <div class="highlight-title">💫 專屬你的療癒點 ‧ 慢步在台北最美社區</div>
-                        我想帶你去台北最漂亮、樹蔭最多的民生社區！我們要一起在【富錦樹咖啡】享受悠閒下午茶，喝著冠軍手沖，還有大口吃極致香濃、甜進心坎裡的<strong>「招牌法式吐司」</strong>。
+                        我想帶你去台北最漂亮、樹蔭最多的民生社區！我們要一起在【富錦樹咖啡】享受悠閒下午茶，喝著冠軍手衝，還有大口吃極致香濃、甜進心坎裡的<strong>「招牌法式吐司」</strong>。
                         <br><strong>【下午的貼心按摩提案】：</strong>吃飽後如果你覺得累，我直接帶你到隔壁的【森 SPA】按個舒服的足湯或肩頸；如果這時你精神還很好，我們就在民生社區悠閒散步，把按摩的能量留在深夜方案裡！
                     </div>
                     <div class="info-box traffic-guide">
